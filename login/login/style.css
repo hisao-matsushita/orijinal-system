@@ -19,7 +19,7 @@ form h1,form p {
 form p {
   font-size: 20px;
 }
-form input[type="id"],form input[type="password"] {
+form input[type="text"],form input[type="password"] {
   background: none;
   display: block;
   margin: 20px auto;
@@ -31,7 +31,7 @@ form input[type="id"],form input[type="password"] {
   transition: 0.25c;
   text-align: center;
 }
-form input[type="id"]:focus,form input[type="password"]:focus {
+form input[type="text"]:focus,form input[type="password"]:focus {
   width: 350px;
   background-color: #f0f8ff;
 }

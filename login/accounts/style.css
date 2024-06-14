@@ -1,16 +1,30 @@
-.btn-label{
-  display: inline-block; /* テキストに応じて幅を可変させるため */
-  margin: 1em 0; /* 前後の隙間 */
-  padding: 0.6em 1em; /* 塗りの余白 */
-  font-size: 1em; /* フォントサイズ */
-  background-color: #1aa1ff; /* 背景色 */
-  color: #FFF; /* テキストカラー */
-  border-radius: 3px; /* 角の丸み */
-  border: 0; /* 枠線を消す */
+h1 {
+  padding: 1rem 2rem;
+  color: #fff;
+  background: #094;
+  -webkit-box-shadow: 5px 5px 0 #007032;
+  box-shadow: 5px 5px 0 #007032;
+}
+.form-table{
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1000px;
+}
+.form-table th, .form-table td {
+  border: 2px solid #fff;
+  background-color: #e6f1f6;
+  padding: 1em;
+}
+.form-table th {
+  background-color: #4d9bc1;
+  color: #fff;
   font-weight: bold;
-} 
+  text-align: center;
+  width:120px;
+  height: 80px;
+}
 .text-box{
-  display: inline-block; /* テキストに応じて幅を可変させるため */
+  /* display: inline-block; テキストに応じて幅を可変させるため */
   margin: 1em 0; /* 前後の隙間 */
   padding: 0.6em 1em; /* 塗りの余白 */
   font-size: 1em; /* フォントサイズ */
@@ -19,23 +33,57 @@
   border-radius: 3px; /* 角の丸み */
   border: 1; /* 枠線を消す */
   font-weight: bold;
+  width:250px;
+  height: 20px;
 } 
-.btn-submit {
-  display: block;
-  padding: 7px 25px;
-  border-radius: 7px;
-  border: none;
-  border-bottom: 4px solid #1d7dcc;
-  background-color: #2196f3;
-  font-size: 16px;
+.text1{
+  /* 郵便番号の枠 ・電話番号の枠*/
+  /* display: inline-block; テキストに応じて幅を可変させるため */
+  margin: 1em 0; /* 前後の隙間 */
+  padding: 0.6em 1em; /* 塗りの余白 */
+  font-size: 1em; /* フォントサイズ */
+  background-color: #FFF; /* 背景色 */
+  color: #000; /* テキストカラー */
+  border-radius: 3px; /* 角の丸み */
+  border: 1; /* 枠線を消す */
   font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  appearance: none;
+  width:90px;
+  height: 20px;
+} 
+.text2{
+  /* 町名番地・マンション名などの枠 */
+  /* display: inline-block; テキストに応じて幅を可変させるため */
+  margin: 1em 0; /* 前後の隙間 */
+  padding: 0.6em 1em; /* 塗りの余白 */
+  font-size: 1em; /* フォントサイズ */
+  background-color: #FFF; /* 背景色 */
+  color: #000; /* テキストカラー */
+  border-radius: 3px; /* 角の丸み */
+  border: 1; /* 枠線を消す */
+  font-weight: bold;
+  width:750px;
+  height: 20px;
+} 
+
+.button {
+  background-color: #fff;
+  border: solid 2px #191970;
+  color: #191970;
+  border-radius: 20px;
+  padding: 10px 30px;
+  text-decoration: none;
+  font-size: 1em;
+  box-shadow: 0 5px 0 #191970;
+  display: inline-block;
+  transition: .3s;
+}
+.button:hover {
+  color: #191970;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970;
 }
 
-.btn-submit:active {
-  margin-top: 3px;
-  background-color: #309bf2;
-  border-bottom: 2px solid #006366;
-}
+
+
+
+
