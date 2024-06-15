@@ -1,9 +1,7 @@
 h1 {
-  padding: 10px 10px;
+  padding: 5px 8px;
   color: #fff;
   background: #094;
-  -webkit-box-shadow: 5px 5px 0 #007032;
-  -moz-box-shadow: 5px 5px 0 #007032;
   box-shadow: 5px 5px 0 #007032;
 }
 .form-table{
@@ -12,54 +10,86 @@ h1 {
   border-collapse: collapse;
   width: 100%;
   max-width: 1000px;
+  
 }
 .form-table th, .form-table td {
   border: 3px solid #ffffff;
   background-color: #e6f6f3;
-  padding: 10px;
+  padding: 3px;
 }
 .form-table th {
   background-color: #4d9bc1;
   color: #fff;
   font-weight: bold;
   text-align: center;
-  width:130px;
-  height: 80px;
+  width: 180px;
+  height: 3px;
+}
+select {
+  font-size: 20px;/* フォントサイズ */
+  color: #000;/* テキストカラー */
+  border-radius: 5px;/* 角の丸み */
+  font-weight: bold;
+  text-align: center;
+  width: 145px;
 }
 .text-box{
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 5px 0; 前後の隙間 */
-  padding: 20px 30px; /* 塗りの余白 */
-  font-size: 30px; /* フォントサイズ */
+  padding: 10px 10px; /* 塗りの余白 */
+  font-size: 20px; /* フォントサイズ */
   background-color: #FFF; /* 背景色 */
   color: #000; /* テキストカラー */
-  border-radius: 10px; /* 角の丸み */
+  border-radius: 5px; /* 角の丸み */
   /* border: 1; 枠線を消す */
   font-weight: bold;
-  text-align: center;
+  /* text-align: center; */
   width:250px;
-  height: 20px;
+  height: 5px;
 } 
+.p-postal-code, .p-region, .p-locality {
+  font-size: 20px;/* フォントサイズ */
+  color: #000;/* テキストカラー */
+  border-radius: 5px;/* 角の丸み */
+  font-weight: bold;
+  text-align: center;
+  width: 120px;
+}
+.p-street-address, .p-extended-address {
+  /* 郵便番号の枠 ・電話番号の枠*/
+  /* display: inline-block; テキストに応じて幅を可変させるため */
+  /* margin: 1em 0; 前後の隙間 */
+  padding: 10px 10px; /* 塗りの余白 */
+  font-size: 20px; /* フォントサイズ */
+  background-color: #FFF; /* 背景色 */
+  color: #000; /* テキストカラー */
+  border-radius: 5px; /* 角の丸み */
+  /* border: 1; 枠線を消す */
+  font-weight: bold;
+  /* text-align: center; */
+  width:750px;
+  height: 5px;
+}
 .text1{
   /* 郵便番号の枠 ・電話番号の枠*/
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 1em 0; 前後の隙間 */
-  padding: 20px 25px; /* 塗りの余白 */
-  font-size: 30px; /* フォントサイズ */
+  padding: 10px 10px; /* 塗りの余白 */
+  font-size: 20px; /* フォントサイズ */
   background-color: #FFF; /* 背景色 */
   color: #000; /* テキストカラー */
   border-radius: 10px; /* 角の丸み */
   /* border: 1; 枠線を消す */
   font-weight: bold;
-  text-align: center;
+  /* text-align: center; */
   width:90px;
-  height: 20px;
+  height: 5px;
 } 
 .text2{
   /* 町名番地・マンション名などの枠 */
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 1em 0; 前後の隙間 */
-  padding: 20px 25px; /* 塗りの余白 */
+  padding: 10px 10px; /* 塗りの余白 */
   font-size: 20px; /* フォントサイズ */
   background-color: #FFF; /* 背景色 */
   color: #000; /* テキストカラー */
@@ -67,7 +97,7 @@ h1 {
   /* border: 1; 枠線を消す */
   font-weight: bold;
   width:750px;
-  height: 20px;
+  height: 5px;
 } 
 
 .button {
