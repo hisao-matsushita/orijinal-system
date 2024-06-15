@@ -4,26 +4,55 @@ h1 {
   background: #094;
   box-shadow: 5px 5px 0 #007032;
 }
-.form-table{
+.first-table, .second-table, .third-table, .fourth-table {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
   width: 100%;
   max-width: 1000px;
-  
+ 
 }
-.form-table th, .form-table td {
-  border: 3px solid #ffffff;
+.first-table td, .second-table td, .third-table td, .fourth-table td {
+  border: 3px solid #e6f6f3;
   background-color: #e6f6f3;
   padding: 3px;
 }
-.form-table th {
-  background-color: #4d9bc1;
+.first-table th {
+  border: 3px solid #e6f6f3;
+  background-color: #4d8dc1;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 3px;
+  width: 180px;
+  height: 3px; 
+}
+.second-table th {
+  border: 3px solid #e6f6f3;
+  background-color: #c14d4d;
   color: #fff;
   font-weight: bold;
   text-align: center;
   width: 180px;
-  height: 3px;
+  height: 3px; 
+}
+.third-table th {
+  border: 3px solid #e6f6f3;
+  background-color: #764dc1;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: 180px;
+  height: 3px; 
+}
+.fourth-table th {
+  border: 3px solid #e6f6f3;
+  background-color: #c1b54d;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: 180px;
+  height: 3px;   
 }
 select {
   font-size: 20px;/* フォントサイズ */
@@ -33,7 +62,7 @@ select {
   text-align: center;
   width: 145px;
 }
-.text-box{
+.text {
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 5px 0; 前後の隙間 */
   padding: 10px 10px; /* 塗りの余白 */
@@ -56,7 +85,7 @@ select {
   width: 120px;
 }
 .p-street-address, .p-extended-address {
-  /* 郵便番号の枠 ・電話番号の枠*/
+  /* 郵便番号の枠 */
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 1em 0; 前後の隙間 */
   padding: 10px 10px; /* 塗りの余白 */
@@ -70,8 +99,8 @@ select {
   width:750px;
   height: 5px;
 }
-.text1{
-  /* 郵便番号の枠 ・電話番号の枠*/
+.account_tel01, .account_tel02, .account_tel03 {
+  /* 電話番号の枠*/
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 1em 0; 前後の隙間 */
   padding: 10px 10px; /* 塗りの余白 */
@@ -85,7 +114,7 @@ select {
   width:90px;
   height: 5px;
 } 
-.text2{
+.p-street-address, .p-extended-address {
   /* 町名番地・マンション名などの枠 */
   /* display: inline-block; テキストに応じて幅を可変させるため */
   /* margin: 1em 0; 前後の隙間 */
