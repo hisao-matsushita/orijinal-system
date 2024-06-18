@@ -72,7 +72,7 @@ select {
 .p-street-address, .p-extended-address {
   width:750px;
 } 
-form input[type="submit"] {
+input[type="submit"], a {
   background-color: #fff;
   border: solid 2px #191970;
   color: #191970;
@@ -84,12 +84,18 @@ form input[type="submit"] {
   width: 60px;/* 幅 */
   box-shadow: 0 5px 0 #191970;
   transition: .3s;
+  cursor: pointer;
 }
 .flex {
   text-align: center;
   margin-top: 10px;
 }
-.button:hover {
+input[type="submit"]:hover {
+  color: #191970;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970;
+}
+a:hover {
   color: #191970;
   transform: translateY(5px);
   box-shadow: 0 0 0 #191970;

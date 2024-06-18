@@ -1,3 +1,6 @@
+body {
+  background-color: #808080;
+}
 h1 {
   font-size: 50px;/* フォントサイズ */
   padding: 5px 8px;
@@ -100,7 +103,7 @@ input {
   color: #ffffff00;
   text-align: center;
 }
-.button {
+input[type="submit"], a {
   background-color: #fff;
   border: solid 2px #191970;
   color: #191970;
@@ -110,13 +113,20 @@ input {
   font-size: 20px;
   box-shadow: 0 5px 0 #191970;
   transition: .3s;
+  cursor: pointer;
 }
 .flex {
-padding: 30px 0;
-display: flex;
-justify-content: center;
+  position: relative; /* 今の位置を基準 */
+  top: 30px; /* 上からの位置 */
+  left: 500px; /* 左からの位置 */
 }
-.button:hover {
+input[type="submit"]:hover {
+  color: #191970;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970;
+
+}
+a:hover {
   color: #191970;
   transform: translateY(5px);
   box-shadow: 0 0 0 #191970;
