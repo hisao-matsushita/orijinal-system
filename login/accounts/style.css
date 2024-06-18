@@ -1,8 +1,16 @@
+body {
+  background-color: #808080;
+}
 h1 {
+  font-size: 50px;/* フォントサイズ */
   padding: 5px 8px;
   color: #fff;
   background: #094;
   box-shadow: 5px 5px 0 #007032;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;/* 幅 */
+  height: 60px; /* 高さ */
 }
 input {
   font-weight: bold;/* 太文字 */
@@ -64,29 +72,25 @@ select {
 .p-street-address, .p-extended-address {
   width:750px;
 } 
-.button {
+form input[type="submit"] {
   background-color: #fff;
   border: solid 2px #191970;
   color: #191970;
-  border-radius: 20px;
-  padding: 10px 30px;
+  border-radius: 20px;/* 角丸 */
+  padding: 10px 10px;/* 余白 */
   text-decoration: none;
-  font-size: 50px;
+  font-size: 10px;/* 文字サイズ */
+  height: 40px;/* 高さ */
+  width: 60px;/* 幅 */
   box-shadow: 0 5px 0 #191970;
   transition: .3s;
 }
 .flex {
-padding: 30px 0;
-display: flex;
-justify-content: center;
+  text-align: center;
+  margin-top: 10px;
 }
 .button:hover {
   color: #191970;
   transform: translateY(5px);
   box-shadow: 0 0 0 #191970;
 }
-
-
-
-
-

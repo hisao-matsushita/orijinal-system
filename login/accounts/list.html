@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>従業員一覧</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="list.css">
+    </head>
+    <header>
+        <h1>従業員一覧</h1>
+    </header>
+    <body>
+        <table class="first-table">
+            <tr>
+                <th>全労働者数</th>
+                <td><input type="text"></td>        
+                <th>乗務員者数</th>
+                <td><input type="text"></td>
+                <th>乗務員平均年齢</th>
+                <td><input type="text"></td>
+            </tr>
+        </table>
+            <a href="#" class="button">新規登録</a>
+        <table class="second-table">
+            <tr>
+                <th colspan="5">検索</th>
+            </tr>
+            <tr>
+                <th>氏名（ひらがな）</th>
+                <th>所属課</th>
+                <th>職種区分</th>
+                <th>勤務区分</th>
+                <th>退職者</th>
+            </tr>
+                <td><input type="text" placeholder="たつみいちばん"></td>
+                <td><select name="account_department">
+                        <option value="">選択</option>
+                        <option value="内勤">内勤</option>
+                        <option value="外勤">外勤</option>
+                    </select>
+                </td>
+                <td><select name="account_classification">
+                        <option value="">選択</option>
+                        <option value="正社員">正社員</option>
+                        <option value="準正社員">準正社員</option>
+                        <option value="嘱託">嘱託</option>
+                    </select>
+                </td>
+                <td><select name="account_workclass">
+                        <option value="">選択</option>
+                        <option value="役員">役員</option>
+                        <option value="管理者">管理者</option>
+                        <option value="事務員">事務員</option>
+                        <option value="整備士">整備士</option>
+                        <option value="配車係">配車係</option>
+                        <option value="乗務A">乗務A</option>
+                        <option value="乗務B">乗務B</option>
+                        <option value="乗務C">乗務C</option>
+                        <option value="乗務D">乗務D</option>
+                        <option value="乗務E">乗務E</option>
+                        <option value="乗務F">乗務F</option>
+                        <option value="乗務G">乗務G</option>
+                        <option value="乗務H">乗務H</option>
+                    </select>
+                </td>
+                <td><select name="account_retirement">
+                        <option value="">選択</option>
+                    </select>         
+                </td>
+        </table>
+            <a href="#" class="button">検索</a>
+            <a href="#" class="button">クリア</a>
+            <a href="#" class="button">印刷</a>
+        <table class="third-table">
+            <tr>
+              <!-- 空欄を&nbsp;で挿入 -->
+                <th>&nbsp;</th>
+                <th>従業員番号</th>
+                <th>氏名</th>
+                <th>年齢</th>
+                <th>勤続年数</th>
+                <th>免許証有効期限</th>
+                <th>所属課</th>
+                <th>職種区分</th>
+                <th>勤務区分</th>
+                <th>登録年月日</th>
+                <th>更新年月日</th>
+            </tr>
+            <tr>
+                <td><a href="#" class="button">詳細</a></td>
+                <td rowspan="2">従業員番号表示</td>
+                <td rowspan="2">氏名表示</td>
+                <td rowspan="2">年齢表示</td>
+                <td rowspan="2">勤続年数表示</td>
+                <td rowspan="2">免許証有効期限表示</td>
+                <td rowspan="2">所属課表示</td>
+                <td rowspan="2">職種区分表示</td>
+                <td rowspan="2">勤務区分表示</td>
+                <td rowspan="2">登録年月日表示</td>
+                <td rowspan="2">更新年月日表示</td>
+            </tr>
+        </table>
+
+
+
+
+
+    </body>

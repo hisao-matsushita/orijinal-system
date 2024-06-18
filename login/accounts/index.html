@@ -9,17 +9,18 @@
         <h1>従業員新規登録</h1>
     </header>
     <body>
+    <form>
         <script src="https://yubinbango.github.io/yubinbango/yubinbango.js"></script>
-        <form class="h-adr">
+        <div class="h-adr">
             <span class="p-country-name" style="display:none;">Japan</span>
                 <table class="first-table">
                     <tr>
                         <th>パスワード</th>
-                        <td><input type class="text" placeholder="t0542542471"></td>
+                        <td><input type="password" class="text" placeholder="t0542542471"></td>
                     </tr>
                     <tr>
                         <th>従業員No</th>
-                        <td><input type class="text" placeholder="1111"></td>
+                        <td><input type="text" placeholder="1111"></td>
                         <th>所属営業所</th>
                         <td><select name="sales_office">
                                 <option value="">選択</option>
@@ -174,7 +175,6 @@
                             </select>
                     </tr>
                     <tr>
-                        </td>
                         <th>郵便番号</th>
                         <td><input type="text" class="p-postal-code" size="3" maxlength="3" placeholder="420"> -
                             <input type="text" class="p-postal-code" size="4" maxlength="4" placeholder="0042">
@@ -182,9 +182,9 @@
                     </tr>
                     <tr>
                         <th>都道府県</th>
-                        <td><input type="text" class="p-region" readonly /></td>
+                        <td><input type="text" class="p-region" readonly></td>
                         <th>市町村区</th>
-                        <td><input type="text" class="p-locality" readonly /></td>
+                        <td><input type="text" class="p-locality" readonly></td>
                     </tr>
                     <tr>
                         <th>町名番地</th>
@@ -213,8 +213,8 @@
                         </td>
                     </tr>
                 </table>
-        </form>
-        <form class="h-adr">
+        </div>
+        <div class="h-adr">
             <span class="p-country-name" style="display:none;">Japan</span>
                 <table class="second-table">
                     <hr>
@@ -242,9 +242,9 @@
                     </tr>
                     <tr>
                         <th>都道府県</th>
-                        <td><input type="text" class="p-region" readonly /></td>
+                        <td><input type="text" class="p-region" readonly></td>
                         <th>市町村区</th>
-                        <td><input type="text" class="p-locality" readonly /></td>
+                        <td><input type="text" class="p-locality" readonly></td>
                     </tr>
                     <tr>
                         <th>町名番地</th>
@@ -273,8 +273,7 @@
                         </td>
                     </tr>
                 </table>
-        </form>
-        <form>
+        </div>
             <table class="third-table">
                 <hr>
                 <tr>
@@ -612,7 +611,9 @@
                 <th>?????</th>
                 <td><select name="account_enrollment">
                         <option value="">選択</option>
-                        <option value="年末調整">年末調整</option> 
+                        <option value="年末調整対象">年末調整対象</option> 
+                        <option value="年末調整対象外">年末調整対象外</option> 
+                        <option value="死亡退職">死亡退職</option> 
                     </select>
                 </td>                           
             </table>
@@ -628,10 +629,10 @@
                 </td>
                 </tr>
             </table>
-            <div table class="flex">       
-                <a href="#" class="button">登録</a>
-                <a href="#" class="button">閉じる</a>
+            <div table class="flex">
+                <input type="submit" value="登録" name="button">
+                <input type="submit" value="閉じる" name="button">
             </div>
-        </form>
+    </form>
     </body>
 </html> 
