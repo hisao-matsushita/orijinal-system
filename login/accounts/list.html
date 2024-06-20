@@ -7,20 +7,47 @@
     </head>
     <header>
         <h1>従業員一覧</h1>
+              <!-- パンクズナビ -->
+              <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a itemprop="item" href="account_menu.html">
+                      <span itemprop="name">人事管理メニュー</span>
+                  </a>
+                  <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a itemprop="item" href="list.html">
+                      <span itemprop="name">従業員一覧</span>
+                  </a>
+                  <meta itemprop="position" content="2" />
+                </li>
+                <!-- <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a itemprop="item" href="index.html">
+                      <span itemprop="name">従業員新規登録</span>
+                  </a>
+                  <meta itemprop="position" content="3" />
+                </li> -->
+                <!-- <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="index.html">
+                        <span itemprop="name">免許証保守</span>
+                    </a>
+                    <meta itemprop="position" content="4" />
+                </li> -->
+            </ol>
     </header>
     <body>
         <table class="first-table">
             <tr>
                 <th>全労働者数</th>
-                <td><input type="text"></td>        
+                <td>100名</td>        
                 <th>乗務員者数</th>
-                <td><input type="text"></td>
+                <td>45名</td>
                 <th>乗務員平均年齢</th>
-                <td><input type="text"></td>
+                <td>55名</td>
             </tr>
         </table>
-        <div class="flex">
-            <input type="submit" value="新規登録" name="button">
+        <div class="button">
+            <a href="index.html">新規登録</a>
         </div>
         <table class="second-table">
             <tr>
@@ -71,44 +98,98 @@
                 </td>
             </tr>
         </table>
-        <div class="flex">
+        <!-- <div class="button">
             <input type="submit" value="検索" name="button">
             <input type="submit" value="クリア" name="button">
             <input type="submit" value="印刷" name="button">
-        </div>
+        </div> -->
         <table class="third-table">
             <tr>
               <!-- 空欄を&nbsp;で挿入 -->
                 <th>&nbsp;</th>
                 <th>従業員番号</th>
-                <th>氏名</th>
+                <th class="name">氏名</th>
                 <th>年齢</th>
                 <th>勤続年数</th>
-                <th>免許証有効期限</th>
+                <th class="deadline">免許証有効期限</th>
                 <th>所属課</th>
                 <th>職種区分</th>
                 <th>勤務区分</th>
-                <th>登録年月日</th>
-                <th>更新年月日</th>
+                <th class="registration">登録年月日</th>
+                <th class="update">更新年月日</th>
             </tr>
             <tr>
-                <td><a href="#" class="button">詳細</a></td>
-                <td>従業員番号表示</td>
-                <td>氏名表示</td>
-                <td>年齢表示</td>
-                <td>勤続年数表示</td>
-                <td>免許証有効期限表示</td>
-                <td>所属課表示</td>
-                <td>職種区分表示</td>
-                <td>勤務区分表示</td>
-                <td>登録年月日表示</td>
-                <td>更新年月日表示</td>
+                <!-- <td><a href="#" class="button">詳細</a></td> -->
+                <td>&nbsp;</td>
+                <td>1234</td>
+                <td>ゆいとうてつや<br>由比藤哲也</td>
+                <td>60歳</td>
+                <td>10年</td>
+                <td>2024年12月12日</td>
+                <td>外勤</td>
+                <td>準正社員</td>
+                <td>配車係</td>
+                <td>2024年12月12日</td>
+                <td>2024年12月12日</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" class="button">詳細</a></td> -->
+                <td>&nbsp;</td>
+                <td>972</td>
+                <td>ほりごめあすか<br>堀米明日香</td>
+                <td>41歳</td>
+                <td>2年</td>
+                <td>2024年12月12日</td>
+                <td>内勤</td>
+                <td>嘱託</td>
+                <td>事務員</td>
+                <td>2024年12月12日</td>
+                <td>2024年12月12日</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" class="button">詳細</a></td> -->
+                <td>&nbsp;</td>
+                <td>673</td>
+                <td>なかやまはつお<br>中山初男</td>
+                <td>72歳</td>
+                <td>32年</td>
+                <td>2024年12月12日</td>
+                <td>外勤</td>
+                <td>嘱託</td>
+                <td>乗務A</td>
+                <td>2024年12月12日</td>
+                <td>2024年12月12日</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" class="button">詳細</a></td> -->
+                <td>&nbsp;</td>
+                <td>927</td>
+                <td>ささきよういち<br>佐々木鷹一</td>
+                <td>37歳</td>
+                <td>3年</td>
+                <td>2024年12月12日</td>
+                <td>外勤</td>
+                <td>正社員</td>
+                <td>乗務H</td>
+                <td>2024年12月12日</td>
+                <td>2024年12月12日</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" class="button">詳細</a></td> -->
+                <td>&nbsp;</td>
+                <td>1234</td>
+                <td>ゆいとうてつや<br>由比藤哲也</td>
+                <td>60歳</td>
+                <td>10年</td>
+                <td>2024年12月12日</td>
+                <td>外勤</td>
+                <td>準正社員</td>
+                <td>配車係</td>
+                <td>2024年12月12日</td>
+                <td>2024年12月12日</td>
             </tr>
         </table>
-            <div table class="flex">
-                <input type="submit" value="登録" name="button">
-                <a href="account_menu.html">閉じる</a>
-            </div>
+
 
 
 
