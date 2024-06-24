@@ -12,8 +12,8 @@ h1 {
   box-shadow: 5px 5px 0 #007032;
   margin-left: auto;
   margin-right: auto;
-  width: 1300px;/* 幅 */
-  height: 60px; /* 高さ */
+  width: 80%;/* 幅 */
+  height: 70px; /* 高さ */
 }
 /* パンクズナビ */
 .breadcrumb {
@@ -55,156 +55,123 @@ h1 {
   color: #FFF;
 }
 /* パンクズナビ終了 */
-.first-table {
-  /* font-size: 30px; */
-  margin-left: auto;
-  margin-right: auto;
+table.info {
   border-collapse: collapse;
-  color: #fff;
+  height: 100px;
+  width: 1300px;
+  margin: 10px auto;
   text-align: center;
 }
-.first-table th {
+table.info th {
   font-size: 25px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  width: 200px;
-  height: 100px;
   border: 5px solid #000;
-  background-color: #4d8dc1;
+  background-color: #664dc1;
   color: #fff;
-  text-align: center;
 }
-.first-table td {
+table.info td {
   font-size: 40px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
   width: 200px;
-  height: 100px;
   border: 5px solid #000;
   background-color: #fff;
   color: #000;
+}
+table.search {
+  border-collapse: collapse;
+  width: 50%;
+  margin: 30px auto;
   text-align: center;
 }
-.second-table {
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  color: #fff;
-  text-align: center;
-}
-.second-table th {
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  width: 200px;
-  height: 30px;
+table.search th {
+  font-size: 25px;
   border: 3px solid #000;
   background-color: #4d8dc1;
   color: #fff;
-  text-align: center;
 }
-.second-table td {
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  width: 100px;
-  height: 30px;
+table.search td {
+  height: 50px;
   border: 3px solid #000;
   color: #ffffff00;
-  text-align: center;
 }
 select, input {
   font-weight: bold; /* 太文字 */
-  font-size: 20px;/* フォントサイズ */
+  font-size: 25px;/* フォントサイズ */
   border-radius: 5px;/* 角の丸み*/
   color: #000;/* テキストカラー */
   background-color: #FFF; /* 背景色 */
-}
-select {
-  width: 150px;/* 幅 */
+  width: 200px;
   text-align: center;
 }
-input {
-  width: 200px;/* 幅 */
-}
-.third-table {
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  /* padding: 5px 5px 5px 5px; */
+table.list {
   border-collapse: collapse;
-  /* width: 100px; */
-  /* color: #fff; */
-  /* text-align: center; */
+  margin: 30px auto;
+  text-align: center;
+  width: 100%;
 }
-.third-table th {
-  margin-left: auto;
-  margin-right: auto;
-  /* padding: 5px 8px; */
-  border-collapse: collapse;
+table.list th {
   width: 100px;
   height: 30px;
   border: 3px solid #000;
   background-color: #4d8dc1;
   color: #fff;
-  text-align: center;
 }
-.third-table .name{
-  width: 170px;
+table.list .name{
+  width: 180px;
 }
-.third-table .deadline{
-  width: 170px;
+table.list .deadline{
+  width: 200px;
 }
-.third-table .registration{
-  width: 170px;
+table.list .registration{
+  width: 200px;
 }
-.third-table .update{
-  width: 170px;
+table.list .update{
+  width: 200px;
 }
-.third-table td {
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  font-weight: bold; /* 太文字 */
-  height: 80px;
+table.list td {
+  font-weight: bold;/*  太文字 */
+  height: 60px;
   border: 3px solid #000;
   color: #000;
   background-color: #fff;
-  text-align: center;
 }
-input[type="submit"] {
+.insert {
   background-color: #fff;
   border: solid 2px #191970;
   color: #191970;
   border-radius: 20px;
   padding: 10px 30px;
-  text-decoration: none;
-  font-size: 20px;
+  font-size: 30px;
   box-shadow: 0 5px 0 #191970;
   transition: .3s;
   cursor: pointer;
+  width: 130px;
+  margin: 30px 0 0 10%;
 }
-/* .button { */
-  /* padding: 10px 10px;余白 */
-  /* position: absolute; */
-  /* left: 500px; */
-  /* top: 260px; */
-  /* height: 40px;高さ */
-  /* text-align: center; */
-/* } */
-/* input[type="submit"]:hover {
+.insert:hover { 
   color: #191970;
   transform: translateY(5px);
-  box-shadow: 0 0 0 #191970;
+  box-shadow: 0 0 0 #191970; 
+}
+.btn_area {
+  margin: 10px auto;
+  text-align: center;
+}
+button {
+  font-size: 30px;
+  width: 300px;
+  cursor: pointer;
+  background-color: #bfc14d; 
+} 
 
-} */
-/* a:hover {
-  color: #191970;
-  transform: translateY(5px);
-  box-shadow: 0 0 0 #191970;
-} */
+.detail .button{
+  font-size: 30px;
+  padding: 3px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+
+  left: 50px;
+  top: 260px;
+  height: 10px;
+  text-align: center;
+  background-color: #bfc14d04;
+} 

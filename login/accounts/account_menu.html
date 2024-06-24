@@ -1,52 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>従業員新規登録</title>
+        <title>人事管理トップ</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="account_menu.css">
     </head>
-    <header>
-        <h1>人事管理メニュー</h1>
+    <body>
+        <header>
+            <h1>人事管理メニュー</h1>
                 <!-- パンクズナビ -->
                 <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
                     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                      <a itemprop="item" href="account_menu.html">
-                          <span itemprop="name">人事管理メニュー</span>
-                      </a>
-                      <meta itemprop="position" content="1" />
-                    </li>
-                    <!-- <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                      <a itemprop="item" href="list.html">
-                          <span itemprop="name">従業員一覧</span>
-                      </a>
-                      <meta itemprop="position" content="2" />
-                    </li>
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                      <a itemprop="item" href="index.html">
-                          <span itemprop="name">従業員新規登録</span>
-                      </a>
-                      <meta itemprop="position" content="3" />
-                    </li> -->
-                    <!-- <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" href="index.html">
-                            <span itemprop="name">免許証保守</span>
+                        <a itemprop="item" href="../main_menu/index.html">
+                            <span itemprop="name">メインメニュー</span>
                         </a>
-                        <meta itemprop="position" content="4" />
-                    </li> -->
+                        <meta itemprop="position" content="1" />
+                    </li>
                 </ol>
-    </header>
-    <body>
-        <div class="btn-border-gradient-wrap btn-border-gradient-wrap--gold">
-            <a href="list.html" class="btn btn-border-gradient"><span class="btn-text-gradient--gold">従業員一覧</span></a>
-            <a href="index.html" class="btn btn-border-gradient"><span class="btn-text-gradient--gold">従業員新規登録</span></a>
-            <a href="" class="btn btn-border-gradient"><span class="btn-text-gradient--gold">免許証保守</span></a>
-          </div>
-        <!-- <div class="container">
-            <ul>
-              <li><span>従業員一覧</span></li>
-              <li><span>従業員登録</span></li>
-              <li><span>免許証保守</span></li>
-            </ul>
-          </div> -->
+        </header>
+
+        <main>
+            <div class="container">
+                <a href="list.html">
+                    <button>従業員一覧</button>
+                </a>
+                <a href="index.html">
+                    <button>従業員新規登録</button>
+                </a>
+                <a href="driver_licence.html">
+                    <button>免許証保守</button>
+                </a>
+            </div>
+        </main>
     </body>
 </html>

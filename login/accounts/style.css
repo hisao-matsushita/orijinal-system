@@ -3,6 +3,8 @@ body {
   display: table;
   width: 100%;
   height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 h1 {
   font-size: 50px;/* フォントサイズ */
@@ -18,9 +20,9 @@ h1 {
 /* パンクズナビ */
 .breadcrumb {
   margin: 0 0 20px 0;
-  padding: 0;
+  /* padding: 0; */
   list-style: none;
-  text-align: right;/* 右寄せ */
+  text-align: right;/*右寄せ  */
 }
 .breadcrumb li {
   position: relative;
@@ -121,11 +123,11 @@ input[type="submit"] {
   border: solid 2px #191970;
   color: #191970;
   border-radius: 20px;/*角丸*/
-  padding: 10px 10px;/*余白*/
+  /* padding: 10px 10px;余白 */
   text-decoration: none;
-  font-size: 10px;/*文字サイズ*/
-  height: 40px;/*高さ*/
-  width: 60px;/*幅*/
+  font-size: 30px;/*文字サイズ*/
+  height: 50px;/*高さ*/
+  width: 200px;/*幅*/
   box-shadow: 0 5px 0 #191970;
   transition: .3s;
   cursor: pointer;

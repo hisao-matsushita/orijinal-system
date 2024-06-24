@@ -1,140 +1,176 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>辰巳タクシー（株）管理システム</title>
-        <meta name="description" content="辰巳タクシー株式会社独自の管理システム">
-        <meta charset="utf-8">
-        <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
-    </head>
-    <body>
-        <!-- <form class="h-adr">
-            <span class="p-country-name" style="display:none;">Japan</span>
-      
-            〒<input type="text" class="p-postal-code" size="8" maxlength="8"><br>
-      
-            <input type="text" class="p-region p-locality p-street-address p-extended-address" /><br>
-          </form> -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>従業員一覧</title>
+<link rel="stylesheet" href="test.css">
+</head>
+<body>
+	<header>
+		<h1>従業員一覧</h1>
+		<nav>
+			<ul>
+				<li><a href="#">メニュー</a></li>
+				<li>従業員一覧</li>
+			</ul>
+		</nav>
+	</header>
 
-          <!-- <form class="h-adr">
-            <span class="p-country-name" style="display:none;">Japan</span>
-      
-            〒<input type="text" class="p-postal-code" size="3" maxlength="3"> -
-            <input type="text" class="p-postal-code" size="4" maxlength="4"><br>
-            <label for="">
-                <apan>都道府県</apan>
-                <input type="text" class="p-region" readonly /><br>
-            </label>
-            <label>
-                <span>市町村区</span>
-                <input type="text" class="p-locality" readonly /><br>
-            </label>
-            <label for="">
-                <span>町域</span>
-                <input type="text" class="p-street-address" /><br>
-            </label>
-            <label for="">
-                <span>その他</span>
-                <input type="text" class="p-extended-address" />
-            </label>
-          </form>
-          <form class="h-adr">
-            <span class="p-country-name" style="display:none;">Japan</span> -->
-   
-            <!-- <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script> -->
-            <!-- <div class="col-12 px-2"> -->
-                <!-- <form action="" class="h-adr" method="post">
-                    <span class="p-country-name" style="display:none;">Japan</span>
-                    <div class="card card-info mt-4">
-                        <div class="card-header">
-                            <h3 class="card-title">郵便番号 自動入力</h3>
-                        </div>
-                        <div class="form-horizontal">
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="zip_code" class="col-1 col-form-label">郵便番号</label>
-                                    <div class="col-3">
-                                        <input type="text" name="zip_code" id="zip_code" placeholder="郵便番号を入力してください" class="p-postal-code form-control" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="prefecture_name" class="col-1 col-form-label">都道府県</label>
-                                    <div class="col-3">
-                                        <input type="text" id="prefecture_name" class="p-region form-control" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="city_name" class="col-1 col-form-label">市区町村</label>
-                                    <div class="col-3">
-                                        <input type="text" id="city_name" class="p-locality form-control" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="town_name" class="col-1 col-form-label">町域</label>
-                                    <div class="col-3">
-                                        <input type="text" id="town_name" class="p-street-address form-control" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="extended_address_name" class="col-1 col-form-label">その他住所</label>
-                                    <div class="col-3">
-                                        <input type="text" id="extended_address_name" class="p-extended-address form-control" value="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-    </body> -->
-    <!doctype html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>CSS Cookbook: Breadcrumb Navigation</title>
+	<main>
+		<table class="info">
+			<tr>
+				<th>全労働者</th>
+				<td>100名</td>
+				<th>乗務員者数</th>
+				<td>50名</td>
+				<th>乗務員平均年齢</th>
+				<td>40歳</td>
+			</tr>
+		</table>
 
-    <style>
-      body {
-        background-color: #fff;
-        color: #333;
-        font:
-          1.2em / 1.5 Helvetica Neue,
-          Helvetica,
-          Arial,
-          sans-serif;
-        padding: 0;
-        margin: 0;
-      }
+		<div class="insert">
+			<button>新規登録</button>
+		</div>
 
-      .breadcrumb {
-        padding: 0 0.5rem;
-      }
+		<table class="search">
+			<tr>
+				<th colspan="5">検索</th>
+			</tr>
+			<tr>
+				<th>氏名（ひらがな）</th>
+				<th>所属課</th>
+				<th>職種区分</th>
+				<th>勤務区分</th>
+				<th>退職者</th>
+			</tr>
+			<tr>
+				<td><input type="text" value=""></td>
+				<td><select><option>選択してください</option></select></td>
+				<td><select><option>選択してください</option></select></td>
+				<td><select><option>選択してください</option></select></td>
+				<td><select><option>選択してください</option></select></td>
+			</tr>
+		</table>
 
-      .breadcrumb ul {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
+		<div class="btn_area">
+			<button>検索</button>
+			<button>クリア</button>
+			<button>印刷</button>
+		</div>
 
-      .breadcrumb li:not(:last-child)::after {
-        display: inline-block;
-        margin: 0 0.25rem;
-        content: "→";
-      }
-    </style>
-  </head>
+		<table class="list">
+			<tr>
+				<th></th>
+				<th>従業員番号</th>
+				<th>氏名</th>
+				<th>年齢</th>
+				<th>勤続年数</th>
+				<th>免許証有効期限</th>
+				<th>所属課</th>
+				<th>職種区分</th>
+				<th>勤務区分</th>
+				<th>登録年月日</th>
+				<th>更新年月日</th>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+			<tr>
+				<td><button>詳細</button></td>
+				<td>1234</td>
+				<td>やまだたろう<br>山田太郎</td>
+				<td>50歳</td>
+				<td>10年</td>
+				<td>2024年12月12日</td>
+				<td>外勤</td>
+				<td>準正社員</td>
+				<td>配車係</td>
+				<td>2024年12月12日</td>
+				<td>2024年12月12日</td>
+			</tr>
+		</table>
 
-  <body>
-    <nav aria-label="Breadcrumb" class="breadcrumb">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Category</a></li>
-        <li><a href="#">Sub Category</a></li>
-        <li><a href="#">Type</a></li>
-        <li><span aria-current="page">Product</span></li>
-      </ul>
-    </nav>
-  </body>
+		<ul class="pagination">
+			<li><a href="#">前のページへ</a></li>
+			<li><a href="#">次のページへ</a></li>
+		</ul>
+	</main>
+	<footer>
+		&copy;サンプル
+	</footer>
+</body>
 </html>
