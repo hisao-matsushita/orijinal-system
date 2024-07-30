@@ -1,0 +1,222 @@
+<?php
+ $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
+ $user = 'root';
+ $password = '';
+ 
+ try {
+     $pdo = new PDO($dsn, $user, $password);
+ 
+     // accountsテーブルからすべてのカラムのデータを取得するためのSQL文を変数$sqlに代入する
+     $sql_select = 'SELECT * FROM accounts';
+ 
+     // SQL文を実行する
+     $stmt_select = $pdo->query($sql_select);
+ 
+     // SQL文の実行結果を配列で取得する
+     $accounts = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
+ } catch (PDOException $e) {
+     exit($e->getMessage());
+ }
+ ?>
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <!-- <link rel="stylesheet" href="../assets/css/reset.css">
+        <link rel="stylesheet" href="../assets/css/style.css"> -->
+        <link rel="stylesheet" href="list.css">
+
+        <title>従業員一覧</title>
+    </head>
+    <body>
+        <header>
+            <h1>従業員一覧</h1>
+                <!-- パンクズナビ -->
+                 <nav>
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="../main_menu/index.php">
+                            <span itemprop="name">メインメニュー</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                </ol>
+                </nav>
+        </header>
+
+        <main>
+            <table class="info">
+                <tr>
+                    <th>全労働者数</th>
+                    <td>100名</td>        
+                    <th>乗務員者数</th>
+                    <td>45名</td>
+                    <th>乗務員平均年齢</th>
+                    <td>55歳</td>
+                </tr>
+            </table>
+            <div class="insert">
+                <a href="register.php">新規登録</a>
+            </div>
+                <form>
+                    <table class="search">
+                        <tr>
+                            <th colspan="5">検索</th>
+                        </tr>
+                        <tr>
+                            <th>氏名（ひらがな）</th>
+                            <th>所属課</th>
+                            <th>職種区分</th>
+                            <th>勤務区分</th>
+                            <th>退職者</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="たつみいちばん"></td>
+                            <td><select name="account_department">
+                                    <option value="">選択</option>
+                                    <option value="内勤">内勤</option>
+                                    <option value="外勤">外勤</option>
+                                </select>
+                            </td>
+                            <td><select name="account_classification">
+                                    <option value="">選択</option>
+                                    <option value="正社員">正社員</option>
+                                    <option value="準正社員">準正社員</option>
+                                    <option value="嘱託">嘱託</option>
+                                </select>
+                            </td>
+                            <td><select name="account_workclass">
+                                    <option value="">選択</option>
+                                    <option value="役員">役員</option>
+                                    <option value="管理者">管理者</option>
+                                    <option value="事務員">事務員</option>
+                                    <option value="整備士">整備士</option>
+                                    <option value="配車係">配車係</option>
+                                    <option value="乗務A">乗務A</option>
+                                    <option value="乗務B">乗務B</option>
+                                    <option value="乗務C">乗務C</option>
+                                    <option value="乗務D">乗務D</option>
+                                    <option value="乗務E">乗務E</option>
+                                    <option value="乗務F">乗務F</option>
+                                    <option value="乗務G">乗務G</option>
+                                    <option value="乗務H">乗務H</option>
+                                </select>
+                            </td>
+                            <td><select name="account_retirement">
+                                    <option value="">選択</option>
+                                </select>         
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            <div class="btn_area">
+                <button>検索</button>
+                <button>クリア</button>
+                <button>印刷</button>
+            </div>
+            <div>
+                <table class="list">
+                    <tr>
+                        <th></th>
+                        <th class="account_no">従業員番号</th>
+                        <th class="account_kana01">氏名</th>
+                        <th>年齢</th>
+                        <th>勤続年数</th>
+                        <th class="deadline">免許証有効期限</th>
+                        <th>所属課</th>
+                        <th>職種区分</th>
+                        <th>勤務区分</th>
+                        <th class="registration">登録年月日</th>
+                        <th class="update">更新年月日</th>
+                    </tr>
+                    <?php
+                 // 配列の中身を順番に取り出し、表形式で出力する
+                 foreach ($accounts as $account) {
+                     $table_row = "
+                         <td><button>詳細</button></td>
+                         <td>{$account['account_no']}</td>
+                         <td>{$account['account_kana01']}{$account['account_kana02']}<br>{$account['account_name01']}{$account['account_name02']}</td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td>{$account['account_department']}</td>
+                         <td>{$account['account_classification']}</td>
+                         <td>{$account['account_workclass']}</td>
+                         <td></td>
+                         <td></td>                  
+                         </tr>
+                     ";
+                     echo $table_row;
+                 }
+                 ?>
+                    <tr>
+                        <td><button>詳細</button></td>
+                        <td>1234</td>
+                        <td>ゆいとうてつや<br>由比藤哲也</td>
+                        <td>60歳</td>
+                        <td>10年</td>
+                        <td>2024年12月12日</td>
+                        <td>外勤</td>
+                        <td>準正社員</td>
+                        <td>配車係</td>
+                        <td>2024年12月12日</td>
+                        <td>2024年12月12日</td>
+                    </tr>
+                    <tr>
+                        <td><button>詳細</button></td>
+                        <td>972</td>
+                        <td>ほりごめあすか<br>堀米明日香</td>
+                        <td>41歳</td>
+                        <td>2年</td>
+                        <td>2024年12月12日</td>
+                        <td>内勤</td>
+                        <td>嘱託</td>
+                        <td>事務員</td>
+                        <td>2024年12月12日</td>
+                        <td>2024年12月12日</td>
+                    </tr>
+                    <tr>
+                        <td><button>詳細</button></td>
+                        <td>673</td>
+                        <td>なかやまはつお<br>中山初男</td>
+                        <td>72歳</td>
+                        <td>32年</td>
+                        <td>2024年12月12日</td>
+                        <td>外勤</td>
+                        <td>嘱託</td>
+                        <td>乗務A</td>
+                        <td>2024年12月12日</td>
+                        <td>2024年12月12日</td>
+                    </tr>
+                    <tr>
+                        <td><button>詳細</button></td>
+                        <td>927</td>
+                        <td>ささきよういち<br>佐々木鷹一</td>
+                        <td>37歳</td>
+                        <td>3年</td>
+                        <td>2024年12月12日</td>
+                        <td>外勤</td>
+                        <td>正社員</td>
+                        <td>乗務H</td>
+                        <td>2024年12月12日</td>
+                        <td>2024年12月12日</td>
+                    </tr>
+                    <tr>
+                        <td><button>詳細</button></td>
+                        <td>1234</td>
+                        <td>ゆいとうてつや<br>由比藤哲也</td>
+                        <td>60歳</td>
+                        <td>10年</td>
+                        <td>2024年12月12日</td>
+                        <td>外勤</td>
+                        <td>準正社員</td>
+                        <td>配車係</td>
+                        <td>2024年12月12日</td>
+                        <td>2024年12月12日</td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+    </body>
+</html>
