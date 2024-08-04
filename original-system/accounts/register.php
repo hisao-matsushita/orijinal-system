@@ -13,9 +13,13 @@
         // 動的に変わる値をプレースホルダに置き換えたINSERT文をあらかじめ用意する
         $sql  = '
             INSERT INTO accounts (account_password, account_no, account_salesoffice, account_kana01, account_kana02, account_name01, account_name02, 
-                                  account_department, account_classification, account_workclass, account_birthday_year, account_birthday_month, account_birthday_day)
+                                  account_department, account_classification, account_workclass, account_birthday_year, account_birthday_month, account_birthday_day,
+                                  account_license_expiration_date_year, account_license_expiration_date_month, account_license_expiration_date_day,
+                                  account_employment_year, account_employment_month, account_employment_day)
             VALUES (:account_password, :account_no, :account_salesoffice, :account_kana01, :account_kana02, :account_name01, :account_name02, 
-                    :account_department, :account_classification, :account_workclass, :account_birthday_year, :account_birthday_month, :account_birthday_day)
+                    :account_department, :account_classification, :account_workclass, :account_birthday_year, :account_birthday_month, :account_birthday_day,
+                    :account_license_expiration_date_year, :account_license_expiration_date_month, :account_license_expiration_date_day,
+                    :account_employment_year, :account_employment_month, :account_employment_day)
         ';
         $stmt = $pdo->prepare($sql);
 
@@ -34,6 +38,12 @@
         $stmt->bindValue(':account_birthday_year', $_POST['account_birthday_year'], PDO::PARAM_STR); //生年月日（年）
         $stmt->bindValue(':account_birthday_month', $_POST['account_birthday_month'], PDO::PARAM_STR); //生年月日（月）
         $stmt->bindValue(':account_birthday_day', $_POST['account_birthday_day'], PDO::PARAM_STR); //生年月日（日）
+        $stmt->bindValue(':account_license_expiration_date_year', $_POST['account_license_expiration_date_year'], PDO::PARAM_STR); //免許証有効期限（年）
+        $stmt->bindValue(':account_license_expiration_date_month', $_POST['account_license_expiration_date_month'], PDO::PARAM_STR); //免許証有効期限（年）
+        $stmt->bindValue(':account_license_expiration_date_day', $_POST['account_license_expiration_date_day'], PDO::PARAM_STR); //免許証有効期限（年）
+        $stmt->bindValue(':account_employment_year', $_POST['account_employment_year'], PDO::PARAM_STR); //雇用年月日（年）
+        $stmt->bindValue(':account_employment_month', $_POST['account_employment_month'], PDO::PARAM_STR); //雇用年月日（年）
+        $stmt->bindValue(':account_employment_day', $_POST['account_employment_day'], PDO::PARAM_STR); //雇用年月日（年）
         
 
         // SQL文を実行する
@@ -41,16 +51,21 @@
 
         // 追加した件数を取得する
         $count = $stmt->rowCount();
- 
-        $message = "従業員を{$count}件登録しました。";
+    
+        // 登録した従業員名を取得
+        $account_name01 = htmlspecialchars($_POST['account_name01'], ENT_QUOTES, 'UTF-8');
+        $account_name02 = htmlspecialchars($_POST['account_name02'], ENT_QUOTES, 'UTF-8');
 
-        // 従業員一覧ページにリダイレクトさせる（同時にmessageパラメータも渡す）
-        header("Location: list.php?message={$message}");
-    } catch (PDOException $e) {
-        exit($e->getMessage());
+        // メッセージを設定してリダイレクト
+        $message = "従業員「{$account_name01} {$account_name02}」が正常に登録されました。";
+        header("Location: list.php?message=" . urlencode($message));
+        exit();
+        } catch (PDOException $e) {
+        echo 'データベースエラー: ' . $e->getMessage();
+        }
     }
-}
- ?>
+?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -82,12 +97,6 @@
 
     <body>
     <form action="" method="POST">
-             <?php
-             // （従業員の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する
-             if (isset($_GET['message'])) {
-                 echo "<p class='success'>{$_GET['message']}</p>";
-             }
-             ?>
         <div class="h-adr">
             <span class="p-country-name" style="display:none;">Japan</span>
                 <table class="first-table">
@@ -478,50 +487,6 @@
                 <td colspan="2">
                     <select name="account_employment_year">
                         <option value="0">選択</option>
-                        <option value="1941">1941</option>
-                        <option value="1942">1942</option>
-                        <option value="1943">1943</option>
-                        <option value="1944">1944</option>
-                        <option value="1945">1945</option>
-                        <option value="1946">1946</option>
-                        <option value="1947">1947</option>
-                        <option value="1948">1948</option>
-                        <option value="1949">1949</option>
-                        <option value="1950">1950</option>
-                        <option value="1951">1951</option>
-                        <option value="1952">1952</option>
-                        <option value="1953">1953</option>
-                        <option value="1954">1954</option>
-                        <option value="1955">1955</option>
-                        <option value="1956">1956</option>
-                        <option value="1957">1957</option>
-                        <option value="1958">1958</option>
-                        <option value="1959">1959</option>
-                        <option value="1960">1960</option>
-                        <option value="1961">1961</option>
-                        <option value="1962">1962</option>
-                        <option value="1963">1963</option>
-                        <option value="1964">1964</option>
-                        <option value="1965">1965</option>
-                        <option value="1966">1966</option>
-                        <option value="1967">1967</option>
-                        <option value="1968">1968</option>
-                        <option value="1969">1969</option>
-                        <option value="1970">1970</option>
-                        <option value="1971">1971</option>
-                        <option value="1972">1972</option>
-                        <option value="1973">1973</option>
-                        <option value="1974">1974</option>
-                        <option value="1975">1975</option>
-                        <option value="1976">1976</option>
-                        <option value="1977">1977</option>
-                        <option value="1978">1978</option>
-                        <option value="1979">1979</option>
-                        <option value="1980">1980</option>
-                        <option value="1981">1981</option>
-                        <option value="1982">1982</option>
-                        <option value="1983">1983</option>
-                        <option value="1984">1984</option>
                         <option value="1985">1985</option>
                         <option value="1986">1986</option>
                         <option value="1987">1987</option>
@@ -537,6 +502,37 @@
                         <option value="1997">1997</option>
                         <option value="1998">1998</option>
                         <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
                     </select>年
                     <select name="account_employment_month">
                         <option value="0">選択</option>
@@ -790,4 +786,4 @@
 
 </body>
     
-</html> 
+</html>

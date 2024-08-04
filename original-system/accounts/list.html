@@ -38,6 +38,12 @@
             <div class="insert">
                 <a href="register.html">新規登録</a>
             </div>
+            <?php
+             // （従業員の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する
+             if (isset($_GET['message'])) {
+                 echo "<p class='success'>{$_GET['message']}</p>";
+             }
+             ?>
                 <form>
                     <table class="search">
                         <tr>
