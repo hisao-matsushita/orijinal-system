@@ -144,6 +144,10 @@ input[type="submit"]:hover {
   color: #191970;
   transform: translateY(5px);
   box-shadow: 0 0 0 #191970;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
 } 
 /* a:hover {
   color: #191970;

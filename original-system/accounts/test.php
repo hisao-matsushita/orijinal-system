@@ -124,7 +124,6 @@ $retiredAccounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $account_classification = isset($_GET['account_classification']) ? $_GET['account_classification'] : '0';
     $account_workclass = isset($_GET['account_workclass']) ? $_GET['account_workclass'] : '0';
     // SQLクエリを構築
-// $sql = 'SELECT * FROM accounts WHERE CONCAT(account_kana01, account_kana02) LIKE :keyword AND account_retirement_year IS NULL AND account_retirement_month IS NULL AND account_retirement_day IS NULL';
     $sql = 'SELECT * FROM accounts WHERE CONCAT(account_kana01, account_kana02) LIKE :keyword';
     if ($account_department != '0') {
         $sql .= ' AND account_department = :account_department';
