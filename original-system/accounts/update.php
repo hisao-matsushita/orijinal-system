@@ -39,10 +39,19 @@ try {
             'address_kanji_hiragana_katakana_english' => '/^[\p{Han}\p{Hiragana}\p{Katakana}A-Za-z0-9!@#$%^&*()\-_=+{};:,<.>]+$/u',
         ];
 
-    // ---- バリデーション処理 ----
-    // パスワードバリテーション（空の場合、バリテーションをスキップ）
-    if (!empty($_POST['account_password'])) {
-            validate($_POST['account_password'], $patterns['password'], '半角英数字を含む8桁以上16桁以下で入力してください。', $errors, 'account_password');
+        // ---- バリデーション処理 ----
+        if (isset($_POST['account_password'])) {
+            if ($_POST['account_password'] === '') {
+                // パスワードが空の場合はNULLを設定する
+                $password_sql = ', account_password = NULL';
+            } else {
+                // パスワードが入力されている場合にのみバリデーションを行う
+                validate($_POST['account_password'], $patterns['password'], '半角英数字を含む8桁以上16桁以下で入力してください。', $errors, 'account_password');
+                $hashed_password = password_hash($_POST['account_password'], PASSWORD_DEFAULT);
+                $password_sql = ', account_password = :account_password';
+            }
+        } else {
+            $password_sql = ''; // パスワードが存在しない場合、SQL文にパスワードの更新を含めない
         }
 
         // 従業員Noバリテーション
@@ -175,13 +184,16 @@ try {
         if (!empty($guarentor_tel2_errors)) {
             $errors['account_guarentor_tel2'] = '半角数字のみで入力してください。';
         }
+
+
+
         // ---- バリテーション処理コードの終了----
 
         // すべてのエラーチェックが終わった後、エラーがなければデータベースを更新
         if (empty($errors)) {
             $sql_update = '
             UPDATE accounts
-            SET account_password = :account_password, account_no = :account_no, account_salesoffice = :account_salesoffice, account_kana01 = :account_kana01, account_kana02 = :account_kana02,
+            SET account_no = :account_no, account_salesoffice = :account_salesoffice, account_kana01 = :account_kana01, account_kana02 = :account_kana02,
                 account_name01 = :account_name01, account_name02 = :account_name02, account_birthday_year = :account_birthday_year, account_birthday_month = :account_birthday_month, account_birthday_day = :account_birthday_day,
                 account_jenda = :account_jenda, account_bloodtype = :account_bloodtype, account_zipcord01 = :account_zipcord01, account_zipcord02 = :account_zipcord02,
                 account_pref = :account_pref, account_address01 = :account_address01, account_address02 = :account_address02, account_address03 = :account_address03,
@@ -195,12 +207,12 @@ try {
                 account_employment_year = :account_employment_year, account_employment_month = :account_employment_month, account_employment_day = :account_employment_day,
                 account_appointment_year = :account_appointment_year, account_appointment_month = :account_appointment_month, account_appointment_day = :account_appointment_day,
                 account_retirement_year = :account_retirement_year, account_retirement_month = :account_retirement_month, account_retirement_day = :account_retirement_day
+                ' . $password_sql . ' 
             WHERE account_id = :account_id
             ';
             $stmt_update = $pdo->prepare($sql_update);
 
             // Bind values
-            $stmt_update->bindValue(':account_password', $_POST['account_password'], PDO::PARAM_STR); // パスワード
             $stmt_update->bindValue(':account_no', $_POST['account_no'], PDO::PARAM_STR); // 従業員No
             $stmt_update->bindValue(':account_salesoffice', $_POST['account_salesoffice'], PDO::PARAM_STR); // 所属営業所
             $stmt_update->bindValue(':account_kana01', $_POST['account_kana01'], PDO::PARAM_STR); // 氏（ふりがな）
@@ -257,7 +269,12 @@ try {
             $stmt_update->bindValue(':account_retirement_year', $_POST['account_retirement_year'], PDO::PARAM_STR); // 退職年月日（年）
             $stmt_update->bindValue(':account_retirement_month', $_POST['account_retirement_month'], PDO::PARAM_STR); // 退職年月日（月）
             $stmt_update->bindValue(':account_retirement_day', $_POST['account_retirement_day'], PDO::PARAM_STR); // 退職年月日（日）
-            $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_INT); 
+            // $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_INT);
+           // パスワードが入力されている場合のみバインドする
+           if (!empty($_POST['account_password'])) {
+            $stmt_update->bindValue(':account_password', $hashed_password, PDO::PARAM_STR);
+        }
+        $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_INT);
             
             // SQL文を実行する
             $stmt_update->execute();
@@ -271,7 +288,6 @@ try {
 } catch (PDOException $e) {
     exit($e->getMessage());
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -368,8 +384,8 @@ try {
                         <td colspan="2">
                             <select name="account_birthday_year">
                                 <?php
-                                    $startYear = date("Y") - 90;  // 現在の年から90年前を開始年に設定
-                                    $endYear = date("Y");  // 現在の年を終了年に設定
+                                    $startYear = 1939;  
+                                    $endYear = date("Y") - 25;  // 現在の年から25年前を終了年に設定
                                     $selectedYear = $_POST['account_birthday_year'] ?? $account['account_birthday_year'] ?? '';  // 登録済みの値またはPOSTされた値を使用
                                         echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
@@ -473,7 +489,7 @@ try {
                         <td colspan="2">
                             <select name="account_license_expiration_date_year">
                                 <?php
-                                    $startYear = date('Y');  // 現在の年を開始年に設定
+                                    $startYear = 2024;  
                                     $endYear = date('Y') + 10;  // 現在の年から10年後を終了年に設定(自動的に10年更新される)
                                     $selectedYear = $_POST['account_license_expiration_date_year'] ?? $account['account_license_expiration_date_year'] ?? '';
                                         echo generateYearOptions($startYear, $endYear, $selectedYear);
@@ -643,7 +659,7 @@ try {
                             <select name="account_employment_year">
                                 <?php
                                     $startYear = 1985;  // 開始年
-                                    $endYear = date('Y');  // 終了年を現在の年に設定
+                                    $endYear = date('Y') + 1;  // 終了年を現在の年から1年後に設定(自動的に1年追加される)
                                     $selectedYear = $_POST['account_employment_year'] ?? $account['account_employment_year'] ?? '';
                                         echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
@@ -668,7 +684,7 @@ try {
                             <select name="account_appointment_year">
                                 <?php
                                     $startYear = 1985;  // 開始年
-                                    $endYear = date('Y') + 5;  // 現在の年から5年後までを終了年に設定(自動的に5年追加される)
+                                    $endYear = date('Y') + 1;  // 現在の年から1年後までを終了年に設定(自動的に1年追加される)
                                     $selectedYear = $_POST['account_appointment_year'] ?? $account['account_appointment_year'] ?? '';
                                         echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
@@ -693,7 +709,7 @@ try {
                             <select name="account_retirement_year">
                                 <?php
                                     $startYear = 2020;  // 開始年
-                                    $endYear = date('Y');  // 終了年を現在の年に設定
+                                    $endYear = date('Y') + 1;  // 現在の年から1年後までを終了年に設定(自動的に1年追加される)
                                     $selectedYear = $_POST['account_retirement_year'] ?? $account['account_retirement_year'] ?? '';
                                         echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>

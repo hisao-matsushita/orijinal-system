@@ -359,19 +359,19 @@ try {
                         </th>
                     </tr>
                     <?php foreach ($processedAccounts as $account): ?>
-                    <tr>
-                        <td><a href="<?= $account['detail_link'] ?>"class="button">詳細</a></td>
-                        <td><?= $account['account_no'] ?> <!-- 従業員番号の表示 --> 
-                        <td><?= $account['account_kana'] ?><br><?= $account['account_name'] ?></td> <!-- 氏名（ひらがな・漢字）の表示 -->
-                        <td><?= $account['age'] ?></td> <!-- 年齢の表示 -->
-                        <td><?= $account['service'] ?></td> <!-- 勤続年数の表示 -->
-                        <td><?= $account['account_deadline'] ?></td> <!-- 免許証有効期限の表示 -->
-                        <td><?= $account['account_department'] ?></td> <!-- 所属課の表示 -->
-                        <td><?= $account['account_classification'] ?></td> <!-- 職種区分の表示 -->
-                        <td><?= $account['account_workclass'] ?></td> <!-- 勤務区分の表示 -->
-                        <td><?= $account['registration_date'] ?></td> <!-- 登録年月日の表示 -->
-                        <td><?= $account['updated_at'] ?></td> <!-- 更新年月日の表示 -->  
-                    </tr>
+                        <tr>
+                            <td><a href="<?= $account['detail_link'] ?>"class="button">詳細</a></td>
+                            <td><?= $account['account_no'] ?> <!-- 従業員番号の表示 --> 
+                            <td><?= $account['account_kana'] ?><br><?= $account['account_name'] ?></td> <!-- 氏名（ひらがな・漢字）の表示 -->
+                            <td><?= $account['age'] ?></td> <!-- 年齢の表示 -->
+                            <td><?= $account['service'] ?></td> <!-- 勤続年数の表示 -->
+                            <td><?= $account['account_deadline'] ?></td> <!-- 免許証有効期限の表示 -->
+                            <td><?= $account['account_department'] ?></td> <!-- 所属課の表示 -->
+                            <td><?= $account['account_classification'] ?></td> <!-- 職種区分の表示 -->
+                            <td><?= $account['account_workclass'] ?></td> <!-- 勤務区分の表示 -->
+                            <td><?= $account['registration_date'] ?></td> <!-- 登録年月日の表示 -->
+                            <td><?= $account['updated_at'] ?></td> <!-- 更新年月日の表示 -->  
+                        </tr>
                     <?php endforeach; ?>
                 </table>
             </div>

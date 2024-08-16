@@ -415,6 +415,8 @@ $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = '';
 $errors = []; // エラーメッセージを格納する配列
+require 'config.php';  // config.php をインクルード
+echo date('Y-m-d H:i:s');
 
 // データベース接続
 try {
@@ -449,9 +451,9 @@ try {
             'address_kanji_hiragana_katakana_english' => '/^[\p{Han}\p{Hiragana}\p{Katakana}A-Za-z0-9!@#$%^&*()\-_=+{};:,<.>]+$/u',
         ];
 
-    // ---- バリデーション処理 ----
-    // パスワードバリテーション（空の場合、バリテーションをスキップ）
-    if (!empty($_POST['account_password'])) {
+        // ---- バリデーション処理 ----
+        // パスワードバリテーション（空の場合、バリテーションをスキップ）
+        if (!empty($_POST['account_password'])) {
             validate($_POST['account_password'], $patterns['password'], '半角英数字を含む8桁以上16桁以下で入力してください。', $errors, 'account_password');
         }
 
@@ -585,6 +587,15 @@ try {
         if (!empty($guarentor_tel2_errors)) {
             $errors['account_guarentor_tel2'] = '半角数字のみで入力してください。';
         }
+
+        // パスワードが入力されている場合、ハッシュ化する
+        if (!empty($_POST['account_password'])) {
+            $hashed_password = password_hash($_POST['account_password'], PASSWORD_DEFAULT);
+        } else {
+            // パスワードが空の場合、既存のパスワードを使用
+            $hashed_password = $account['account_password'];
+        }
+
         // ---- バリテーション処理コードの終了----
 
         // すべてのエラーチェックが終わった後、エラーがなければデータベースを更新
@@ -610,7 +621,7 @@ try {
             $stmt_update = $pdo->prepare($sql_update);
 
             // Bind values
-            $stmt_update->bindValue(':account_password', $_POST['account_password'], PDO::PARAM_STR); // パスワード
+            $stmt_update->bindValue(':account_password', $hashed_password, PDO::PARAM_STR); // パスワード
             $stmt_update->bindValue(':account_no', $_POST['account_no'], PDO::PARAM_STR); // 従業員No
             $stmt_update->bindValue(':account_salesoffice', $_POST['account_salesoffice'], PDO::PARAM_STR); // 所属営業所
             $stmt_update->bindValue(':account_kana01', $_POST['account_kana01'], PDO::PARAM_STR); // 氏（ふりがな）
@@ -681,7 +692,6 @@ try {
 } catch (PDOException $e) {
     exit($e->getMessage());
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -738,10 +748,9 @@ try {
                             <?php endif; ?>
                         </td>
                         <th>所属営業所</th>
-                        <td><select name="account_salesoffice">
-                            <option value="">選択</option>
-                                <option value="1" <?= (isset($account['account_salesoffice']) && $account['account_salesoffice'] == 1) ? 'selected' : ''; ?>>本社営業所</option>
-                                <option value="2" <?= (isset($account['account_salesoffice']) && $account['account_salesoffice'] == 2) ? 'selected' : ''; ?>>向敷地営業所</option>
+                        <td>
+                            <select name="account_salesoffice">
+                                <?= generateSelectOptions(ACCOUNT_SALESOFFICE, $account['account_salesoffice'] ?? '') ?>
                             </select>
                         </td>
                     </tr>
@@ -778,53 +787,38 @@ try {
                         <th>生年月日</th>
                         <td colspan="2">
                             <select name="account_birthday_year">
-                                <option value="">選択</option>
                                 <?php
-                                $startYear = 1941;  // 開始年
-                                $endYear = date("Y");  // 現在の年
-                                for ($year = $startYear; $year <= $endYear; $year++) {                                        
-                                    $selected = ($year == ($_POST['account_birthday_year'] ?? $account['account_birthday_year'] ?? '')) ? 'selected' : '';
-                                        echo "<option value=\"$year\" $selected>$year</option>";
-                                    }
+                                    $startYear = 1939;  
+                                    $endYear = date("Y") - 25;  // 現在の年から25年前を終了年に設定
+                                    $selectedYear = $_POST['account_birthday_year'] ?? $account['account_birthday_year'] ?? '';  // 登録済みの値またはPOSTされた値を使用
+                                        echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
                             </select>年
                             <select name="account_birthday_month">
-                                <option value="">選択</option>
                                 <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    $selected = ($month == ($_POST['account_birthday_month'] ?? $account['account_birthday_month'] ?? '')) ? 'selected' : '';
-                                        echo "<option value=\"$month\" $selected>$month</option>";
-                                    }
+                                    $selectedMonth = $_POST['account_birthday_month'] ?? $account['account_birthday_month'] ?? '';  // 登録済みの値またはPOSTされた値を使用
+                                        echo generateMonthOptions($selectedMonth);
                                 ?>
                             </select>月  
                             <select name="account_birthday_day">
-                                <option value="">選択</option>
                                 <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    $selected = ($day == ($_POST['account_birthday_day'] ?? $account['account_birthday_day'] ?? '')) ? 'selected' : '';
-                                        echo "<option value=\"$day\" $selected>$day</option>";
-                                    }
+                                    $selectedDay = $_POST['account_birthday_day'] ?? $account['account_birthday_day'] ?? '';  // 登録済みの値またはPOSTされた値を使用
+                                        echo generateDayOptions($selectedDay);
                                 ?>
                             </select>日
                         </td>
-                    </tr>    
+                    </tr>   
                     <tr>
                         <th>性別</th>
                         <td>
                             <select name="account_jenda">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_jenda']) && $_POST['account_jenda'] == 1) || (isset($account['account_jenda']) && $account['account_jenda'] == 1) ? 'selected' : ''; ?>>男</option>
-                                <option value="2" <?= (isset($_POST['account_jenda']) && $_POST['account_jenda'] == 2) || (isset($account['account_jenda']) && $account['account_jenda'] == 2) ? 'selected' : ''; ?>>女</option>
+                                <?= generateSelectOptions(ACCOUNT_JENDA, $_POST['account_jenda'] ?? $account['account_jenda'] ?? '') ?>
                             </select>
                         </td>
                         <th>血液型</th>
                         <td>
                             <select name="account_bloodtype">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_bloodtype']) && $_POST['account_bloodtype'] == 1) || (isset($account['account_bloodtype']) && $account['account_bloodtype'] == 1) ? 'selected' : ''; ?>>A型</option>
-                                <option value="2" <?= (isset($_POST['account_bloodtype']) && $_POST['account_bloodtype'] == 2) || (isset($account['account_bloodtype']) && $account['account_bloodtype'] == 2) ? 'selected' : ''; ?>>B型</option>
-                                <option value="3" <?= (isset($_POST['account_bloodtype']) && $_POST['account_bloodtype'] == 3) || (isset($account['account_bloodtype']) && $account['account_bloodtype'] == 3) ? 'selected' : ''; ?>>O型</option>
-                                <option value="4" <?= (isset($_POST['account_bloodtype']) && $_POST['account_bloodtype'] == 4) || (isset($account['account_bloodtype']) && $account['account_bloodtype'] == 4) ? 'selected' : ''; ?>>AB型</option>
+                                <?= generateSelectOptions(ACCOUNT_BLOODTYPE, $_POST['account_bloodtype'] ?? $account['account_bloodtype'] ?? '') ?>
                             </select>
                         </td>
                     </tr>
@@ -898,33 +892,24 @@ try {
                         <th>免許証有効期限</th>
                         <td colspan="2">
                             <select name="account_license_expiration_date_year">
-                                <option value="">選択</option>
                                 <?php
-                                $startYear = 2024;  // 開始年
-                                $endYear = 2050;  // 終了年
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    $selected = ($year == ($_POST['account_license_expiration_date_year'] ?? $account['account_license_expiration_date_year'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$year\" $selected>$year</option>";
-                                }
+                                    $startYear = 2024;  
+                                    $endYear = date('Y') + 10;  // 現在の年から10年後を終了年に設定(自動的に10年更新される)
+                                    $selectedYear = $_POST['account_license_expiration_date_year'] ?? $account['account_license_expiration_date_year'] ?? '';
+                                        echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
                             </select>年
                             <select name="account_license_expiration_date_month">
-                                <option value="">選択</option>
                                 <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    $selected = ($month == ($_POST['account_license_expiration_date_month'] ?? $account['account_license_expiration_date_month'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$month\" $selected>$month</option>";
-                                }
+                                    $selectedMonth = $_POST['account_license_expiration_date_month'] ?? $account['account_license_expiration_date_month'] ?? '';
+                                        echo generateMonthOptions($selectedMonth);
                                 ?>
                             </select>月
                             <select name="account_license_expiration_date_day">
-                                <option value="">選択</option>
                                 <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    $selected = ($day == ($_POST['account_license_expiration_date_day'] ?? $account['account_license_expiration_date_day'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$day\" $selected>$day</option>";
-                                }
-                            ?>
+                                    $selectedDay = $_POST['account_license_expiration_date_day'] ?? $account['account_license_expiration_date_day'] ?? '';
+                                        echo generateDayOptions($selectedDay);
+                                ?>
                             </select>日
                         </td>
                     </tr>    
@@ -1048,28 +1033,13 @@ try {
                         <th>所属課</th>
                         <td>
                             <select name="account_department">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_department']) && $_POST['account_department'] == 1) || (isset($account['account_department']) && $account['account_department'] == 1) ? 'selected' : ''; ?>>内勤</option>
-                                <option value="2" <?= (isset($_POST['account_department']) && $_POST['account_department'] == 2) || (isset($account['account_department']) && $account['account_department'] == 2) ? 'selected' : ''; ?>>外勤</option>
+                                <?= generateSelectOptions(ACCOUNT_DEPARTMENT, $_POST['account_department'] ?? $account['account_department'] ?? '') ?>
                             </select>
                         </td>
                         <th>勤務区分</th>
                         <td>
                             <select name="account_workclass">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 1) || (isset($account['account_workclass']) && $account['account_workclass'] == 1) ? 'selected' : ''; ?>>役員</option>
-                                <option value="2" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 2) || (isset($account['account_workclass']) && $account['account_workclass'] == 2) ? 'selected' : ''; ?>>管理者</option>
-                                <option value="3" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 3) || (isset($account['account_workclass']) && $account['account_workclass'] == 3) ? 'selected' : ''; ?>>事務員</option>
-                                <option value="4" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 4) || (isset($account['account_workclass']) && $account['account_workclass'] == 4) ? 'selected' : ''; ?>>整備士</option>
-                                <option value="5" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 5) || (isset($account['account_workclass']) && $account['account_workclass'] == 5) ? 'selected' : ''; ?>>配車係</option>
-                                <option value="6" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 6) || (isset($account['account_workclass']) && $account['account_workclass'] == 6) ? 'selected' : ''; ?>>乗務A</option>
-                                <option value="7" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 7) || (isset($account['account_workclass']) && $account['account_workclass'] == 7) ? 'selected' : ''; ?>>乗務B</option>
-                                <option value="8" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 8) || (isset($account['account_workclass']) && $account['account_workclass'] == 8) ? 'selected' : ''; ?>>乗務C</option>
-                                <option value="9" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 9) || (isset($account['account_workclass']) && $account['account_workclass'] == 9) ? 'selected' : ''; ?>>乗務D</option>
-                                <option value="10" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 10) || (isset($account['account_workclass']) && $account['account_workclass'] == 10) ? 'selected' : ''; ?>>乗務E</option>
-                                <option value="11" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 11) || (isset($account['account_workclass']) && $account['account_workclass'] == 11) ? 'selected' : ''; ?>>乗務F</option>
-                                <option value="12" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 12) || (isset($account['account_workclass']) && $account['account_workclass'] == 12) ? 'selected' : ''; ?>>乗務G</option>
-                                <option value="13" <?= (isset($_POST['account_workclass']) && $_POST['account_workclass'] == 13) || (isset($account['account_workclass']) && $account['account_workclass'] == 13) ? 'selected' : ''; ?>>乗務H</option>
+                                <?= generateSelectOptions(ACCOUNT_WORKCLASS, $_POST['account_workclass'] ?? $account['account_workclass'] ?? '') ?>
                             </select>
                         </td>
                     </tr>
@@ -1077,19 +1047,13 @@ try {
                         <th>職種区分</th>
                         <td>
                             <select name="account_classification">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_classification']) && $_POST['account_classification'] == 1) || (isset($account['account_classification']) && $account['account_classification'] == 1) ? 'selected' : ''; ?>>正社員</option>
-                                <option value="2" <?= (isset($_POST['account_classification']) && $_POST['account_classification'] == 2) || (isset($account['account_classification']) && $account['account_classification'] == 2) ? 'selected' : ''; ?>>準正社員</option>
-                                <option value="3" <?= (isset($_POST['account_classification']) && $_POST['account_classification'] == 3) || (isset($account['account_classification']) && $account['account_classification'] == 3) ? 'selected' : ''; ?>>嘱託</option>
+                                <?= generateSelectOptions(ACCOUNT_CLASSIFICATION, $_POST['account_classification'] ?? $account['account_classification'] ?? '') ?>
                             </select>
                         </td>
                         <th>在籍区分</th>
                         <td>
                             <select name="account_enrollment">
-                                <option value="">選択</option>
-                                <option value="1" <?= (isset($_POST['account_enrollment']) && $_POST['account_enrollment'] == 1) || (isset($account['account_enrollment']) && $account['account_enrollment'] == 1) ? 'selected' : ''; ?>>本採用</option>
-                                <option value="2" <?= (isset($_POST['account_enrollment']) && $_POST['account_enrollment'] == 2) || (isset($account['account_enrollment']) && $account['account_enrollment'] == 2) ? 'selected' : ''; ?>>中途採用</option>
-                                <option value="3" <?= (isset($_POST['account_enrollment']) && $_POST['account_enrollment'] == 3) || (isset($account['account_enrollment']) && $account['account_enrollment'] == 3) ? 'selected' : ''; ?>>退職</option>
+                                <?= generateSelectOptions(ACCOUNT_ENROLLMENT, $_POST['account_enrollment'] ?? $account['account_enrollment'] ?? '') ?>
                             </select>
                         </td>
                     </tr>
@@ -1097,33 +1061,23 @@ try {
                         <th>雇用年月日</th>
                         <td colspan="2">
                             <select name="account_employment_year">
-                                <option value="">選択</option>
                                 <?php
-                                $currentYear = date('Y');
-                                $startYear = 1985;
-                                $endYear = 2050;
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    $selected = ($year == ($_POST['account_employment_year'] ?? $account['account_employment_year'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$year\" $selected>$year</option>";
-                                    }
+                                    $startYear = 1985;  // 開始年
+                                    $endYear = date('Y') + 1;  // 終了年を現在の年から1年後に設定(自動的に1年追加される)
+                                    $selectedYear = $_POST['account_employment_year'] ?? $account['account_employment_year'] ?? '';
+                                        echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
                             </select>年
                             <select name="account_employment_month">
-                                <option value="">選択</option>
                                 <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    $selected = ($month == ($_POST['account_employment_month'] ?? $account['account_employment_month'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$month\" $selected>$month</option>";
-                                    }
+                                    $selectedMonth = $_POST['account_employment_month'] ?? $account['account_employment_month'] ?? '';
+                                        echo generateMonthOptions($selectedMonth);
                                 ?>
                             </select>月
                             <select name="account_employment_day">
-                                <option value="">選択</option>
                                 <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    $selected = ($day == ($_POST['account_employment_day'] ?? $account['account_employment_day'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$day\" $selected>$day</option>";
-                                    }
+                                    $selectedDay = $_POST['account_employment_day'] ?? $account['account_employment_day'] ?? '';
+                                        echo generateDayOptions($selectedDay);
                                 ?>
                             </select>日
                         </td>
@@ -1132,32 +1086,23 @@ try {
                         <th>選任年月日</th>
                         <td colspan="2">
                             <select name="account_appointment_year">
-                                <option value="">選択</option>
                                 <?php
-                                $startYear = 1985;
-                                $endYear = 2050;
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    $selected = ($year == ($_POST['account_appointment_year'] ?? $account['account_appointment_year'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$year\" $selected>$year</option>";
-                                    }
+                                    $startYear = 1985;  // 開始年
+                                    $endYear = date('Y') + 1;  // 現在の年から1年後までを終了年に設定(自動的に1年追加される)
+                                    $selectedYear = $_POST['account_appointment_year'] ?? $account['account_appointment_year'] ?? '';
+                                        echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
                             </select>年
                             <select name="account_appointment_month">
-                                <option value="">選択</option>
                                 <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    $selected = ($month == ($_POST['account_appointment_month'] ?? $account['account_appointment_month'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$month\" $selected>$month</option>";
-                                    }
+                                    $selectedMonth = $_POST['account_appointment_month'] ?? $account['account_appointment_month'] ?? '';
+                                        echo generateMonthOptions($selectedMonth);
                                 ?>
                             </select>月
                             <select name="account_appointment_day">
-                                <option value="">選択</option>
                                 <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    $selected = ($day == ($_POST['account_appointment_day'] ?? $account['account_appointment_day'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$day\" $selected>$day</option>";
-                                    }
+                                 $selectedDay = $_POST['account_appointment_day'] ?? $account['account_appointment_day'] ?? '';
+                                        echo generateDayOptions($selectedDay);
                                 ?>
                             </select>日 
                         </td>
@@ -1166,36 +1111,27 @@ try {
                         <th>退職年月日</th>
                         <td colspan="2">
                             <select name="account_retirement_year">
-                                <option value="">選択</option>
                                 <?php
-                                $startYear = 2020;
-                                $endYear = 2050;
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    $selected = ($year == ($_POST['account_retirement_year'] ?? $account['account_retirement_year'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$year\" $selected>$year</option>";
-                                    }
+                                    $startYear = 2020;  // 開始年
+                                    $endYear = date('Y') + 1;  // 現在の年から1年後までを終了年に設定(自動的に1年追加される)
+                                    $selectedYear = $_POST['account_retirement_year'] ?? $account['account_retirement_year'] ?? '';
+                                        echo generateYearOptions($startYear, $endYear, $selectedYear);
                                 ?>
                             </select>年
                             <select name="account_retirement_month">
-                                <option value="">選択</option>
                                 <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    $selected = ($month == ($_POST['account_retirement_month'] ?? $account['account_retirement_month'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$month\" $selected>$month</option>";
-                                    }
+                                    $selectedMonth = $_POST['account_retirement_month'] ?? $account['account_retirement_month'] ?? '';
+                                        echo generateMonthOptions($selectedMonth);
                                 ?>
                             </select>月
                             <select name="account_retirement_day">
-                                <option value="">選択</option>
                                 <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    $selected = ($day == ($_POST['account_retirement_day'] ?? $account['account_retirement_day'] ?? '')) ? 'selected' : '';
-                                    echo "<option value=\"$day\" $selected>$day</option>";
-                                    }
+                                    $selectedDay = $_POST['account_retirement_day'] ?? $account['account_retirement_day'] ?? '';
+                                        echo generateDayOptions($selectedDay);
                                 ?>
                             </select>日
                         </td>
-                    </tr>                         
+                    </tr>                        
                 </table>
             </div>    
 
@@ -1206,7 +1142,9 @@ try {
 
     </body>
     
-</html>
+</html>html>
+
+
 
 <!-- register.php -->
 <?php
@@ -1215,8 +1153,9 @@ $user = 'root';
 $password = '';
 $errors = []; // エラーメッセージを格納する配列
 require 'config.php';  // config.php をインクルード
+// date_default_timezone_set('Asia/Tokyo');
 echo date('Y-m-d H:i:s');
-
+                
 // バリデーション関数
 function validate($input, $pattern, $errorMessage, &$errors, $fieldName) {
     if (!empty($input) && !preg_match($pattern, $input)) {
@@ -1343,6 +1282,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 var_dump($_POST); // ここで送信されたデータを確認する
+                
+
+// パスワードをハッシュ化して保存
+$hashed_password = password_hash($_POST['account_password'], PASSWORD_DEFAULT);
+
 
             $sql  = '
                 INSERT INTO accounts (account_password, account_no, account_salesoffice, account_kana01, account_kana02, account_name01, account_name02,
@@ -1371,7 +1315,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare($sql);
 
             // Bind values
-            $stmt->bindValue(':account_password', $_POST['account_password'], PDO::PARAM_STR); // パスワード
+            $stmt->bindValue(':account_password', $hashed_password, PDO::PARAM_STR); // ハッシュ化されたパスワードを保存
             $stmt->bindValue(':account_no', $_POST['account_no'], PDO::PARAM_STR); // 従業員No
             $stmt->bindValue(':account_salesoffice', $_POST['account_salesoffice'], PDO::PARAM_STR); // 所属営業所
             $stmt->bindValue(':account_kana01', $_POST['account_kana01'], PDO::PARAM_STR); // 氏（ふりがな）
@@ -1533,34 +1477,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tr>
                         <th>生年月日</th>
                         <td colspan="2">
-                            <select name="account_birthday_year">
-                                <option value="">選択</option>
+                        <select name="account_birthday_year">
                                 <?php
-                                $startYear = 1941;  // 開始年
-                                $endYear = date("Y");  // 現在の年
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    echo "<option value=\"$year\">$year</option>";
-                                    }
+                                    $startYear = 1939;
+                                    $endYear = date("Y") - 25;  // 現在の年から25年前を終了年に設定
+                                        echo generateYearOptions($startYear, $endYear, $_POST['account_birthday_year'] ?? '');
                                 ?>
                             </select>年
                             <select name="account_birthday_month">
-                                <option value="">選択</option>
-                                <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    echo "<option value=\"$month\">$month</option>";
-                                    }
-                                ?>
+                                <?= generateMonthOptions($_POST['account_birthday_month'] ?? '') ?>
                             </select>月  
                             <select name="account_birthday_day">
-                                <option value="">選択</option>
-                                <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    echo "<option value=\"$day\">$day</option>";
-                                    }
-                                ?>
+                                <?= generateDayOptions($_POST['account_birthday_day'] ?? '') ?>
                             </select>日
                         </td>
-                    </tr>    
+                    </tr>
                     <tr>
                         <th>性別</th>
                         <td>
@@ -1649,33 +1580,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>免許証有効期限</th>
                         <td colspan="2">
                             <select name="account_license_expiration_date_year">
-                            <option value="">選択</option>
                                 <?php
-                                $startYear = 2024;  // 開始年
-                                $endYear = 2050;  // 終了年
-                                for ($year = $startYear; $year <= $endYear; $year++) {
-                                    echo "<option value=\"$year\">$year</option>";
-                                    }
+                                    $currentYear = 2024;
+                                    $endYear = $currentYear + 10;  // 現在の年から10年後まで(自動的に10年追加される)
+                                        echo generateYearOptions($currentYear, $endYear, $_POST['account_license_expiration_date_year'] ?? '');
                                 ?>
                             </select>年
                             <select name="account_license_expiration_date_month">
-                                <option value="">選択</option>
-                                <?php
-                                for ($month = 1; $month <= 12; $month++) {
-                                    echo "<option value=\"$month\">$month</option>";
-                                    }
-                                ?>
+                                <?= generateMonthOptions($_POST['account_license_expiration_date_month'] ?? '') ?>
                             </select>月
                             <select name="account_license_expiration_date_day">
-                            <option value="">選択</option>
-                                <?php
-                                for ($day = 1; $day <= 31; $day++) {
-                                    echo "<option value=\"$day\">$day</option>";
-                                    }
-                                ?>
+                                <?= generateDayOptions($_POST['account_license_expiration_date_day'] ?? '') ?>
                             </select>日
                         </td>
-                    </tr>    
+                    </tr>   
                 </table>
             </div>
 
@@ -1830,35 +1748,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <th>雇用年月日</th>
                     <td colspan="2">
                         <select name="account_employment_year">
-                        <option value="">選択</option>
                             <?php
-                            $currentYear = date('Y');  // 現在の年を取得
-                            $startYear = 1985;  // 開始年
-                            $endYear = 2050;  // 終了年
-                            for ($year = $startYear; $year <= $endYear; $year++) {
-                                // 現在の年が一致する場合に selected 属性を追加
-                                $selected = ($year == $currentYear) ? 'selected' : '';
-                                echo "<option value=\"$year\" $selected>$year</option>";
-                                }
+                                $startYear = 1985;  // 開始年
+                                $endYear = date('Y') + 1;  // 終了年を現在の年から1年後に設定(自動的に1年追加される)
+                                    echo generateYearOptions($startYear, $endYear, $_POST['account_employment_year'] ?? date('Y'));
                             ?>
                         </select>年
                         <select name="account_employment_month">
-                        <option value="">選択</option>
                             <?php
-                            $currentMonth = date('n');  // 現在の月を取得 (1-12)
-                            for ($month = 1; $month <= 12; $month++) {
-                                // 現在の月が一致する場合に selected 属性を追加
-                                $selected = ($month == $currentMonth) ? 'selected' : '';
-                                echo "<option value=\"$month\" $selected>$month</option>";
-                                }
+                                echo generateMonthOptions($_POST['account_employment_month'] ?? date('n'));
                             ?>
                         </select>月
                         <select name="account_employment_day">
-                        <option value="">選択</option>
                             <?php
-                            for ($day = 1; $day <= 31; $day++) {
-                                echo "<option value=\"$day\">$day</option>";
-                                }
+                                echo generateDayOptions($_POST['account_employment_day'] ?? date('j'));
                             ?>
                         </select>日
                     </td>
@@ -1867,35 +1770,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <th>選任年月日</th>
                     <td colspan="2">
                         <select name="account_appointment_year">
-                        <option value="">選択</option>
                             <?php
-                            $currentYear = date('Y');  // 現在の年を取得
-                            $startYear = 1985;  // 開始年
-                            $endYear = 2050;  // 終了年
-                            for ($year = $startYear; $year <= $endYear; $year++) {
-                                // 現在の年が一致する場合に selected 属性を追加
-                                $selected = ($year == $currentYear) ? 'selected' : '';
-                                echo "<option value=\"$year\" $selected>$year</option>";
-                                }
+                                $startYear = 1985;  // 開始年
+                                $endYear = date('Y') + 1;  // 現在の年から1年後までを終了年に設定(自動的に1年追加される)
+                                    echo generateYearOptions($startYear, $endYear, $_POST['account_appointment_year'] ?? date('Y'));
                             ?>
                         </select>年
                         <select name="account_appointment_month">
-                        <option value="">選択</option>
                             <?php
-                            $currentMonth = date('n');  // 現在の月を取得 (1-12)
-                            for ($month = 1; $month <= 12; $month++) {
-                                // 現在の月が一致する場合に selected 属性を追加
-                                $selected = ($month == $currentMonth) ? 'selected' : '';
-                                echo "<option value=\"$month\" $selected>$month</option>";
-                                }
+                                echo generateMonthOptions($_POST['account_appointment_month'] ?? date('n'));
                             ?>
                         </select>月
                         <select name="account_appointment_day">
-                        <option value="">選択</option>
                             <?php
-                            for ($day = 1; $day <= 31; $day++) {
-                                echo "<option value=\"$day\">$day</option>";
-                                }
+                                echo generateDayOptions($_POST['account_appointment_day'] ?? date('j'));
                             ?>
                         </select>日 
                     </td>
@@ -1904,29 +1792,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <th>退職年月日</th>
                     <td colspan="2">
                         <select name="account_retirement_year">
-                        <option value="">選択</option>
                             <?php
-                            $startYear = 2020;  // 開始年
-                            $endYear = 2050;  // 終了年
-                            for ($year = $startYear; $year <= $endYear; $year++) {
-                                echo "<option value=\"$year\">$year</option>";
-                                }
+                                $startYear = 2020;  // 開始年
+                                $endYear = date('Y') + 1;  // 現在の年から1年後を終了年に設定(自動的に1年追加される)
+                                    echo generateYearOptions($startYear, $endYear, $_POST['account_retirement_year'] ?? '');
                             ?>
                         </select>年
                         <select name="account_retirement_month">
-                        <option value="">選択</option>
                             <?php
-                            for ($month = 1; $month <= 12; $month++) {
-                                echo "<option value=\"$month\">$month</option>";
-                                }
+                                echo generateMonthOptions($_POST['account_retirement_month'] ?? '');
                             ?>
                         </select>月
                         <select name="account_retirement_day">
-                        <option value="">選択</option>
                             <?php
-                            for ($day = 1; $day <= 31; $day++) {
-                                echo "<option value=\"$day\">$day</option>";
-                                }
+                                echo generateDayOptions($_POST['account_retirement_day'] ?? '');
                             ?>
                         </select>日
                     </td>
@@ -1961,4 +1840,186 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </body>
     
+</html>
+
+<!-- ログイン　index.php -->
+<?php
+$dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
+$user = 'root';
+$password = '';
+
+// セッションを開始
+session_start();
+
+try {
+    $pdo = new PDO($dsn, $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    exit('データベース接続エラー: ' . $e->getMessage());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$account_no = $_POST['account_no'] ?? '';
+$account_password = $_POST['account_password'] ?? '';
+
+if (!empty($account_no) && !empty($account_password)) {
+    try {
+        // 従業員Noでユーザーを検索
+        $sql = 'SELECT * FROM accounts WHERE account_no = :account_no';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':account_no', $account_no, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // パスワードの検証
+            if ($user && password_verify($account_password, $user['account_password'])) {
+                // パスワードが一致すればログイン成功
+                $_SESSION['account_no'] = $user['account_no'];
+                $_SESSION['account_name'] = $user['account_name01'] . ' ' . $user['account_name02'];
+                    
+                // ログイン後、メインメニューにリダイレクト
+                header('Location: ../main_menu/index.php');
+                exit();
+            } else {
+            $error_message = '従業員Noまたはパスワードが間違っています。';
+            }
+        } catch (PDOException $e) {
+            $error_message = 'データベースエラーが発生しました: ' . $e->getMessage();
+        }
+    } else {
+        $error_message = '従業員Noとパスワードを入力してください。';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>ログイン</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="login_form_top"></div>
+    </header>
+    <form name="login_form" action="index.php" method="post">
+        <p>No、パスワードをご入力の上、「ログイン」ボタンをクリックしてください</p>
+            <?php if (!empty($error_message)): ?>
+                <p style="color:red;"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></p>
+            <?php endif; ?>
+        <div class="login_form_btm">
+            <input type="text" name="account_no" id="account_no" placeholder="Noを入力" required>
+            <input type="password" name="account_password" id="account_password" placeholder="パスワードを入力" required>
+            <input type="submit" name="button" value="LOGIN">
+        </div>
+    </form>
+</body>
+
+</html>
+
+
+<!-- メインメニュー　index.php -->
+<?php
+$dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
+$user = 'root';
+$password = '';
+
+session_start();
+
+// ログインチェック
+if (!isset($_SESSION['account_no'])) {
+    header('Location: ../login/index.php');
+    exit();
+}
+
+// フルネームの取得
+$user_name = $_SESSION['account_name'];
+
+// ユーザーがログインしていない場合、ログインページにリダイレクト
+if (!isset($_SESSION['account_name'])) {
+    header('Location: ../login/index.php');
+    exit();
+}
+
+try {
+    $pdo = new PDO($dsn, $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // 現在の日付を取得
+    $currentDate = new DateTime();
+
+    // 14日以内に有効期限が切れる免許証を持つ従業員を取得
+    $sql = '
+        SELECT account_id, account_name01, account_name02, account_license_expiration_date_year, account_license_expiration_date_month, account_license_expiration_date_day
+        FROM accounts
+        WHERE DATE(CONCAT(account_license_expiration_date_year, "-", account_license_expiration_date_month, "-", account_license_expiration_date_day)) BETWEEN :current_date AND DATE_ADD(:current_date, INTERVAL 14 DAY)
+    ';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':current_date', $currentDate->format('Y-m-d'), PDO::PARAM_STR);
+    $stmt->execute();
+
+    $expiringAccounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    exit('データベースエラー: ' . $e->getMessage());
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>メインメニュー</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <header>
+            <h1>メインメニュー</h1>
+                <!-- パンクズナビ -->
+                <!-- <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="../login/index.html">
+                            <span itemprop="name">ログイン</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                </ol> -->
+        </header>
+
+        <main>
+            <!-- ログインユーザーの氏名を表示 -->
+        <p><?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?> さんがログイン中です</p>
+        <?php if (!empty($expiringAccounts)): ?>
+    <h2>免許証を更新してください</h2>
+    <?php foreach ($expiringAccounts as $account): ?>
+        <?php
+            // 有効期限をフォーマットする
+            $expirationDate = "{$account['account_license_expiration_date_year']}年{$account['account_license_expiration_date_month']}月{$account['account_license_expiration_date_day']}日";
+            
+            // 氏名をフォーマットする
+            $fullName = htmlspecialchars($account['account_name01'], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($account['account_name02'], ENT_QUOTES, 'UTF-8');
+        ?>
+        <p>※<?= $fullName ?>　免許証有効期限：<?= htmlspecialchars($expirationDate, ENT_QUOTES, 'UTF-8') ?></p>
+    <?php endforeach; ?>
+<?php endif; ?>
+            <div class="container">
+                <a href="#">
+                    <button>日次集計</button>
+                </a>
+                <a href="#">
+                    <button>月次集計</button>
+                </a>
+                <a href="../accounts/list.php">
+                  <button>人事管理</button>
+                </a>
+                <a href="#">
+                  <button>勤怠管理</button>
+                </a>
+                <a href="#">
+                  <button>車両管理</button>
+                </a>
+            </div>
+        </main>
+    </body>
 </html>
