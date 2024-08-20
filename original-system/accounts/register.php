@@ -261,16 +261,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- パンクズナビ -->
         <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <a itemprop="item" href="../main_menu/index.php">
-                  <span itemprop="name">メインメニュー</span>
-              </a>
-              <meta itemprop="position" content="1" />
+                <a itemprop="item" href="../main_menu/index.php">
+                    <span itemprop="name">メインメニュー</span>
+                </a>
+                <meta itemprop="position" content="1" />
             </li>
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <a itemprop="item" href="list.php">
-                  <span itemprop="name">従業員一覧</span>
-              </a>
-              <meta itemprop="position" content="2" />
+                <a itemprop="item" href="list.php">
+                    <span itemprop="name">従業員一覧</span>
+                </a>
+                <meta itemprop="position" content="2" />
             </li>
         </ol>
     </header>

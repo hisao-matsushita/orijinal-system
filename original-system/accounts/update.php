@@ -1,4 +1,7 @@
+
 <?php
+session_start();
+
 $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = '';
@@ -19,6 +22,9 @@ try {
         $stmt->execute();
         $account = $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // ログインユーザーの勤務区分を取得（勤務区分ごと更新などの制限をかけるため）
+    $logged_in_workclass = $_SESSION['account']['workclass'] ?? 0;
 
     // validate() 関数を定義
     function validate($input, $pattern, $errorMessage, &$errors, $fieldName) {
@@ -731,9 +737,15 @@ try {
                 </table>
             </div>    
 
-            <div table class="flex">
+            <!-- <div table class="flex">
+                <input type="submit" name="submit" value="更新">
+            </div> -->
+        <!-- ログインユーザーの勤務区分が「管理者」または「役員」の場合のみ、更新ボタンを表示 -->
+        <?php if (in_array($logged_in_workclass, [1, 2], true)): ?>
+            <div class="flex">
                 <input type="submit" name="submit" value="更新">
             </div>
+        <?php endif; ?>
         </form>
 
     </body>

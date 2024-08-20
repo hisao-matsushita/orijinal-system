@@ -1,24 +1,31 @@
 <?php
+session_start();
+
+// ログアウト処理
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    // セッションを初期化して破棄
+    $_SESSION = [];
+    session_destroy();
+
+    // ログインページにリダイレクト
+    header('Location: ../login/index.php');
+    exit();
+}
+
+// データベース接続情報
 $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = '';
 
-session_start();
-
 // ログインチェック
-if (!isset($_SESSION['account_no'])) {
+if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
+    // ログイン状態でない場合、ログインページにリダイレクト
     header('Location: ../login/index.php');
     exit();
 }
 
 // フルネームの取得
-$user_name = $_SESSION['account_name'];
-
-// ユーザーがログインしていない場合、ログインページにリダイレクト
-if (!isset($_SESSION['account_name'])) {
-    header('Location: ../login/index.php');
-    exit();
-}
+$user_name = $_SESSION['account']['name'];
 
 try {
     $pdo = new PDO($dsn, $user, $password);
@@ -54,14 +61,19 @@ try {
         <header>
             <h1>メインメニュー</h1>
                 <!-- パンクズナビ -->
-                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <!-- <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
                     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" href="../login/index.php">
+                        <a itemprop="item" href="?action=logout">
                             <span itemprop="name">ログアウト</span>
                         </a>
                         <meta itemprop="position" content="1" />
                     </li>
-                </ol>
+                </ol> -->
+                <div class="logout-button">
+                <a href="?action=logout">
+                    <button>ログアウト</button>
+                </a>
+            </div>
         </header>
 
         <main>

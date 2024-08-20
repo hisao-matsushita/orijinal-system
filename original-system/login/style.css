@@ -20,7 +20,8 @@ form p {
   font-size: 20px;
 }
 form input[type="text"],form input[type="password"] {
-  background: none;
+  background: #f0f8ff; /* 背景色を薄い青に設定 */
+  color: #000; /* 文字色を黒に設定 */
   display: block;
   margin: 20px auto;
   border: 2px solid #ff69b4;
@@ -28,7 +29,7 @@ form input[type="text"],form input[type="password"] {
   width: 250px;
   outline: none;
   border-radius: 25px;
-  transition: 0.25c;
+  transition: 0.25s;
   text-align: center;
 }
 form input[type="text"]:focus,form input[type="password"]:focus {

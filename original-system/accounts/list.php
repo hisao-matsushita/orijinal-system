@@ -1,6 +1,20 @@
 <?php
+session_start();
 require 'config.php';
 $processedAccounts = [];
+
+// function generateSelectOptions($options, $selectedValue = null) {
+//     // 初期値のオプションを空の文字列として設定
+//     $html = '<option value=""' . ($selectedValue === '' ? ' selected' : '') . '>選択</option>';
+//     foreach ($options as $key => $value) {
+//         $selected = ($key == $selectedValue) ? 'selected' : '';
+//         $html .= "<option value=\"$key\" $selected>$value</option>";
+//     }
+//     return $html;
+// }
+
+// ログインユーザーの勤務区分を取得（勤務区分ごと更新などの制限をかけるため）
+$logged_in_workclass = $_SESSION['account']['workclass'] ?? 0;
 
 if (isset($_POST['submit'])) {
     try {
@@ -249,9 +263,15 @@ try {
                     echo '</tr>';
                 ?>
             </table>
-            <div class="insert">
+            <!-- 役員または管理者のみが「新規登録」ボタンを表示 -->
+            <?php if (in_array($logged_in_workclass, [1, 2], true)): ?>
+                <div class="insert">
+                    <a href="register.php" class="btn1">新規登録</a>
+                </div>
+            <?php endif; ?>
+            <!-- <div class="insert">
                 <a href="register.php" class="btn1">新規登録</a>
-            </div>
+            </div> -->
             <?php
                 // （従業員の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する
                 if (isset($_GET['message'])) {
@@ -275,20 +295,31 @@ try {
                                 <input type="text" placeholder="ふりがなで検索" name="keyword">
                             </form>
                             </td>
-                            <td><select name="account_department">
+                            <td>
+                                <select name="account_department">
                                     <option value="0">選択</option>
                                     <option value="1">内勤</option>
                                     <option value="2">外勤</option>
                                 </select>
                             </td>
+                            <!-- <td>
+                                <select name="account_department">
+                                    <?= generateSelectOptions(ACCOUNT_DEPARTMENT, $_GET['account_department'] ?? '0'); ?>
+                                </select>
+                            </td> -->
                             <td><select name="account_classification">
                                     <option value="0">選択</option>
                                     <option value="1">正社員</option>
                                     <option value="2">準正社員</option>
                                     <option value="3">嘱託</option>
                                 </select>
-                            </td>
-                            <td><select name="account_workclass">
+                            <!-- <td>
+                                <select name="account_classification">
+                                    <?= generateSelectOptions(ACCOUNT_CLASSIFICATION, $_GET['account_classification'] ?? '0'); ?>
+                                </select>
+                            </td> -->
+                            <td>
+                                <select name="account_workclass">
                                     <option value="0">選択</option>
                                     <option value="1">役員</option>
                                     <option value="2">管理者</option>
@@ -305,25 +336,28 @@ try {
                                     <option value="13">乗務H</option>
                                 </select>
                             </td>
+                            <!-- <td>
+                                <select name="account_workclass">
+                                    <?= generateSelectOptions(ACCOUNT_WORKCLASS, $_GET['account_workclass'] ?? '0'); ?> 
+                                </select>
+                            </td>  -->
                             <td>
-    <select name="account_retirement">
-        <option value="">選択</option>
-        <?php foreach ($retiredAccounts as $retired): ?>
-            <option value="<?= htmlspecialchars($retired['account_id'], ENT_QUOTES, 'UTF-8') ?>">
-                <?= htmlspecialchars($retired['account_name'], ENT_QUOTES, 'UTF-8') ?>
-            </option>
-        <?php endforeach; ?> 
-    </select>
-</td>
+                                <select name="account_retirement">
+                                    <option value="">選択</option>
+                                    <?php foreach ($retiredAccounts as $retired): ?>
+                                        <option value="<?= htmlspecialchars($retired['account_id'], ENT_QUOTES, 'UTF-8') ?>">
+                                            <?= htmlspecialchars($retired['account_name'], ENT_QUOTES, 'UTF-8') ?>
+                                        </option>
+                                    <?php endforeach; ?> 
+                                </select>
+                            </td>
                         </tr>
                     </table>
                 </form>
             <div class="btn_area">
                 <button>検索</button>
                 <button>クリア</button>
-                <!-- <div class="btn_area"> -->
-                    <button type="button" onclick="window.print()">印刷</button>
-                <!-- </div> -->
+                <button type="button" onclick="window.print()">印刷</button>
             </div>
             <div class="print-area">
                 <table class="list">

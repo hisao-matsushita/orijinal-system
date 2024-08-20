@@ -46,4 +46,22 @@ function generateSelectOptions($optionsArray, $selectedValue = '') {
     }
     return $html;
 }
+// function generateSelectOptions($options, $selectedValue = null) {
+//     $html = '<option value="0"' . ($selectedValue == '0' ? ' selected' : '') . '>選択</option>';
+//     foreach ($options as $key => $value) {
+//         $selected = ($key == $selectedValue) ? 'selected' : '';
+//         $html .= "<option value=\"$key\" $selected>$value</option>";
+//     }
+//     return $html;
+// }
+// if (!function_exists('generateSelectOptions')) {
+//     function generateSelectOptions($options, $selectedValue = null) {
+//         $html = '<option value="0"' . ($selectedValue == '0' ? ' selected' : '') . '>選択</option>';
+//         foreach ($options as $key => $value) {
+//             $selected = ($key == $selectedValue) ? 'selected' : '';
+//             $html .= "<option value=\"$key\" $selected>$value</option>";
+//         }
+//         return $html;
+//     }
+// }
 ?>
