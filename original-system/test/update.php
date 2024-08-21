@@ -7,7 +7,7 @@ $user = 'root';
 $password = '';
 $errors = []; // エラーメッセージを格納する配列
 $logged_in_workclass = $_SESSION['account']['workclass'] ?? null;
-require './config.php';  // config.php をインクルード
+require 'config.php';  // config.php をインクルード
 echo date('Y-m-d H:i:s');
 
 // データベース接続

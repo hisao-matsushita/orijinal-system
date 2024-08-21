@@ -3,7 +3,7 @@ $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = '';
 $errors = []; // エラーメッセージを格納する配列
-require './config.php';  // config.php をインクルード
+require 'config.php';  // config.php をインクルード
 echo date('Y-m-d H:i:s');
 
 // バリデーション関数
