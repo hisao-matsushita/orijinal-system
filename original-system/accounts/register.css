@@ -1,0 +1,189 @@
+body {
+  background-color: #808080;
+}
+header, main, footer {
+	max-width:1000px;
+	margin:0 auto;
+  background-color: #e6f6f3;
+}
+h1 {
+  font-size: 4vw; /* 画面幅に応じてフォントサイズを調整 */
+  /* font-size: 50px;フォントサイズ */
+  padding: 5px 8px;
+  color: #fff;
+  background: #094;
+  /* box-shadow: 5px 5px 0 #007032; */
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;/* 幅 */
+  height: 60px; /* 高さ */
+}
+/* パンクズナビ */
+.breadcrumb {
+  margin: 0 0 20px 0;
+  /* padding: 0; */
+  list-style: none;
+  text-align: right;/*右寄せ  */
+}
+.breadcrumb li {
+  position: relative;
+  display: inline-block;/*横に並ぶように*/
+  list-style: none;
+  font-weight: bold;/*太字*/
+  margin-right: 0.8em;
+}
+.breadcrumb li:after {/*三角の部分*/
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  border-style: solid;
+  border-color: transparent;
+  border-left-color: #aedfc6;/*背景色*/
+  border-width: 14px 12px;
+  width: 0;
+  height: 0;
+}
+.breadcrumb li a {
+  display: inline-block;
+  padding: 0 3px 0 7px;
+  height: 28px;
+  line-height: 28px;
+  text-decoration: none;
+  color: #747772;
+  background: #aedfc6;/*背景色*/
+  font-size: 13px;
+}
+.breadcrumb li a:hover {
+  color: #FFF;
+}
+/* パンクズナビ終了 */
+
+.success {
+  color: #a74628;
+}
+/* 必須項目 */
+.required {
+  color: red; /* 必須マークの色を赤に設定 */
+  font-weight: bold; /* 太字にして強調 */
+  margin-left: 5px; /* ラベルとの間隔を調整 */
+}
+
+input {
+  font-weight: bold;/* 太文字 */
+  padding: 10px 10px; /* 塗りの余白 */
+  font-size: 20px;/* フォントサイズ */
+  border-radius: 5px;/* 角の丸み*/
+  color: #000;/* テキストカラー */
+  background-color: #FFF; /* 背景色 */
+  height: 5px; /* 高さ */
+  /* width: 100%; /* 幅を100%に設定 */
+  /* box-sizing: border-box; paddingを含めた幅を計算 */ 
+}
+select {
+  font-weight: bold; /* 太文字 */
+  font-size: 20px;/* フォントサイズ */
+  border-radius: 5px;/* 角の丸み*/
+  color: #000;/* テキストカラー */
+  background-color: #FFF; /* 背景色 */
+  text-align: center;
+  width: 145px; /* 幅 */
+  /* width: 100%; /* 幅を100%に設定 */
+  /* box-sizing: border-box; paddingを含めた幅を計算 */ 
+}
+.first-table, .second-table, .third-table, .fourth-table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1000px;
+}
+.first-table td, .second-table td, .third-table td, .fourth-table td {
+  border: 3px solid #e6f6f3;
+  background-color: #e6f6f3;
+  padding: 3px;
+}
+.first-table th, .second-table th, .third-table th, .fourth-table th {
+  border: 3px solid #e6f6f3;
+  background-color: #4d8dc1;
+  color: #fff;
+  text-align: center;
+  padding: 3px;
+  width: 180px;
+  height: 3px; 
+}
+.second-table th {
+  background-color: #c14d4d;
+}
+.third-table th {
+  background-color: #764dc1;
+}
+.fourth-table th {
+  background-color: #c1b54d;
+}
+/* 電話番号 */
+.account_tel01, .account_tel02, .account_tel03 {
+  width:90px;
+}
+/* 郵便番号・都道府県・市町村区 */
+.p-postal-code, .p-region, .p-locality {
+  width: 120px;
+}
+/* 町名番地・マンション名 */
+.p-street-address, .p-extended-address {
+  width:750px;
+} 
+input[type="submit"] { 
+  background-color: #fff;
+  border: solid 2px #191970;
+  color: #191970;
+  border-radius: 20px;/*角丸*/
+  /* padding: 10px 10px 10px 10px; */
+  text-decoration: none;
+  font-size: 20px;/*文字サイズ*/
+  font-weight: bold; 
+  height: 50px;/*高さ*/
+  width: 200px;/*幅*/
+  box-shadow: 0 5px 0 #191970;
+  transition: .3s;
+  cursor: pointer;
+}
+.flex {
+  text-align: center;
+  margin:20px auto 20px auto;
+}
+input[type="submit"]:hover {
+  color: #191970;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+} 
+/* a:hover {
+  color: #191970;
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970;
+} */
+
+@media (max-width: 1000px) {
+  header, main, footer {
+      width: 90%; /* 画面が1000px以下になったとき、幅を90%に設定 */
+  }
+  h1 {
+      font-size: 40px; /* フォントサイズを調整 */
+  }
+  .first-table, .second-table, .third-table, .fourth-table {
+      width: 100%; /* テーブルの幅も調整 */
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+      font-size: 30px; /* さらに小さい画面でのフォントサイズ */
+  }
+  input[type="submit"] {
+      width: 150px; /* ボタンのサイズを縮小 */
+  }
+}
