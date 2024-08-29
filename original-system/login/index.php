@@ -1,13 +1,14 @@
 <?php
 // セッションを開始
 session_start();
-
-$dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
-$user = 'root';
-$password = '';
+require '../config/config.php';  // config.php をインクルード
+// $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
+// $user = 'root';
+// $password = '';
 
 try {
-    $pdo = new PDO($dsn, $user, $password);
+    // アカウント管理用のデータベースに接続
+    $pdo = new PDO($dsnAccount, $userAccount, $passwordAccount);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     exit('データベース接続エラー: ' . $e->getMessage());
@@ -37,10 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['account']['name'] = $user['account_name01'] . ' ' . $user['account_name02'];
 
                     // ユーザーの勤務区分をセッションに保存
-    $_SESSION['account']['workclass'] = $user['account_workclass'];  // ここで勤務区分を保存
- // デバッグ: セッションの内容を出力して確認
- var_dump($_SESSION['account']);
- 
+                    $_SESSION['account']['workclass'] = $user['account_workclass'];  
 
 
                     // ログイン状態をセッションに保存

@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require '../config/config.php';  // config.php をインクルード
 // ログアウト処理
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     // セッションを初期化して破棄
@@ -8,14 +8,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
 
     // ログインページにリダイレクト
-    header('Location: ./login/index.php');
+    header('Location: ../login/index.php');
     exit();
 }
 
+
 // データベース接続情報
-$dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
-$user = 'root';
-$password = '';
+// $dsn = 'mysql:dbname=php_account_app;host=localhost;charset=utf8mb4';
+// $user = 'root';
+// $password = '';
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
@@ -28,7 +29,7 @@ if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
 $user_name = $_SESSION['account']['name'];
 
 try {
-    $pdo = new PDO($dsn, $user, $password);
+    $pdo = new PDO($dsnAccount, $userAccount, $passwordAccount);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 現在の日付を取得
@@ -105,7 +106,7 @@ try {
                 <a href="#">
                   <button>勤怠管理</button>
                 </a>
-                <a href="#">
+                <a href="../vehicles/list.php">
                   <button>車両管理</button>
                 </a>
             </div>

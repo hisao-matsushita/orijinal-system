@@ -1,6 +1,13 @@
 <?php
 session_start();
+// echo date('Y年m月d日 H時i分s秒');
 require '../config/config.php';
+// ログインチェック
+if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
+    // ログイン状態でない場合、ログインページにリダイレクト
+    header('Location: ../login/index.php');
+    exit();
+}
 $processedAccounts = [];
 $logged_in_workclass = $_SESSION['account']['workclass'] ?? null;
 
@@ -49,9 +56,9 @@ if (isset($_POST['submit'])) {
         $stmt_update = $pdo->prepare($sql_update);
         
         // 値のバインド
-        $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_STR); // 従業員id
+        $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_INT); // 従業員id
         $stmt_update->bindValue(':account_password', $_POST['account_password'], PDO::PARAM_STR); // パスワード
-        $stmt_update->bindValue(':account_no', $_POST['account_no'], PDO::PARAM_STR); // 従業員No
+        $stmt_update->bindValue(':account_no', $_POST['account_no'], PDO::PARAM_INT); // 従業員No
         $stmt_update->bindValue(':account_salesoffice', $_POST['account_salesoffice'], PDO::PARAM_STR); // 所属課
         $stmt_update->bindValue(':account_kana01', $_POST['account_kana01'], PDO::PARAM_STR); // 氏（ひらがな）
         $stmt_update->bindValue(':account_kana02', $_POST['account_kana02'], PDO::PARAM_STR); // 名（ひらがな）
@@ -81,7 +88,8 @@ if (isset($_POST['submit'])) {
 }
 
 try {
-    $pdo = new PDO($dsn, $user, $password);
+    $pdo = new PDO($dsnAccount, $userAccount, $passwordAccount);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 変数を先に初期化
     $account_department = isset($_GET['account_department']) ? $_GET['account_department'] : '0';
@@ -264,12 +272,12 @@ try {
                     echo '</tr>';
                 ?>
             </table>
-        <!-- 役員または管理者のみが「新規登録」ボタンを表示 -->
-<?php if (isset($logged_in_workclass) && ($logged_in_workclass === 1 || $logged_in_workclass === 2)): ?>
-    <div class="insert">
-        <a href="register.php" class="btn1">新規登録</a>
-    </div>
-<?php endif; ?>
+            <!-- 役員または管理者のみが「新規登録」ボタンを表示 -->
+            <?php if (isset($logged_in_workclass) && ($logged_in_workclass === 1 || $logged_in_workclass === 2)): ?>
+                <div class="insert">
+                    <a href="register.php" class="btn1">新規登録</a>
+                </div>
+            <?php endif; ?>
             <!-- <div class="insert">
                 <a href="register.php" class="btn1">新規登録</a>
             </div> -->
@@ -292,7 +300,7 @@ try {
                             <th>退職者</th>
                         </tr>
                         <tr>
-                            <td><form action="where-list.php" method="get" class="search-form">
+                            <td><form action="" method="get" class="search-form">
                                 <input type="text" placeholder="ふりがなで検索" name="keyword">
                             </form>
                             </td>
