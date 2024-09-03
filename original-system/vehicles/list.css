@@ -58,6 +58,21 @@ h1 {
 }
 /* パンクズナビ終了 */
 
+/* suspended クラスの影響を特定の td のみ適用 */
+table.list td.suspended {
+  background-color: #e0e0e056; /* グレーの背景色 */
+  color: #888888; /* テキストカラーをグレーに */
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 2px solid green;
+  border-radius: 5px;
+  background-color: #e0ffe0;
+}
 table.info {
   border-collapse: collapse;
   height: 100px;

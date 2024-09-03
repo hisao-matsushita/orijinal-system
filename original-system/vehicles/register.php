@@ -71,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 first_registration_month, vehicle_inspection_year, vehicle_inspection_month,
                 vehicle_inspection_day, compulsory_automobile_year, compulsory_automobile_month,
                 compulsory_automobile_day, owner_name, owner_address, user_name, user_address,
-                headquarters_address
+                headquarters_address, vehicle_registrationday
             ) VALUES (
                 :car_number_name, :car_model, :car_name, :car_transpottaition, :car_classification_no,
                 :car_purpose, :car_number01, :car_number02, :car_chassis_number, :first_registration_year,
                 :first_registration_month, :vehicle_inspection_year, :vehicle_inspection_month,
                 :vehicle_inspection_day, :compulsory_automobile_year, :compulsory_automobile_month,
                 :compulsory_automobile_day, :owner_name, :owner_address, :user_name, :user_address,
-                :headquarters_address
+                :headquarters_address, NOW()
             )';
 
         $stmt = $pdo->prepare($sql);
@@ -109,13 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
 
-        // リダイレクト処理
-        header('Location: list.php');
-        exit();  // スクリプトの終了
+        $car_number_name = htmlspecialchars($_POST['car_number_name'], ENT_QUOTES, 'UTF-8');
+    $message = urlencode($car_number_name . "号車を登録しました。");
+    
+    // リダイレクト処理
+    header("Location: list.php?message=$message");
+    exit();  // スクリプトの終了
 
-    } catch (PDOException $e) {
-        echo 'データベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
-    }
+} catch (PDOException $e) {
+    echo 'データベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+}
 }
 
 ?>

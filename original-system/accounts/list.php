@@ -302,7 +302,6 @@ try {
                         <tr>
                             <td><form action="" method="get" class="search-form">
                                 <input type="text" placeholder="ふりがなで検索" name="keyword">
-                            </form>
                             </td>
                             <td>
                                 <select name="account_department">
