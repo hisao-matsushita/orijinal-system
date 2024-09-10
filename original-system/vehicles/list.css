@@ -1,0 +1,258 @@
+/* ボディの背景色 */
+body {
+  background: #808080;
+} 
+
+/* ヘッダー、メイン、フッターのスタイル */
+header, main, footer {
+  width: 1350px;
+  margin: 0 auto;
+  background-color: #e6f6f3;
+} 
+
+/* h1のスタイル */
+h1 {
+  font-size: 50px;
+  padding: 5px 8px;
+  color: #fff;
+  background: #094;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  height: 60px;
+}
+
+/* パンくずナビのスタイル */
+.breadcrumb {
+  margin: 0 5px 20px 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+.breadcrumb li {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 0.8em;
+}
+.breadcrumb li:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  border-style: solid;
+  border-color: transparent;
+  border-left-color: #aedfc6;
+  border-width: 14px 12px;
+  width: 0;
+  height: 0;
+}
+.breadcrumb li a {
+  display: inline-block;
+  padding: 0 3px 0 7px;
+  height: 28px;
+  line-height: 28px;
+  text-decoration: none;
+  color: #747772;
+  background: #aedfc6;
+  font-size: 13px;
+}
+.breadcrumb li a:hover {
+  color: #FFF;
+}
+
+/* suspended クラスのスタイル */
+table.list td.suspended {
+  background-color: #e0e0e056;
+  color: #888888;
+}
+
+/* 成功メッセージのスタイル */
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 2px solid green;
+  border-radius: 5px;
+  background-color: #e0ffe0;
+}
+
+/* テーブル info のスタイル */
+table.info {
+  border-collapse: collapse;
+  height: 100px;
+  width: 80%;
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+table.info th {
+  font-size: 25px;
+  border: 5px solid #000;
+  background-color: #664dc1;
+  color: #fff;
+}
+table.info td {
+  font-size: 40px;
+  width: 200px;
+  border: 5px solid #000;
+  background-color: #fff;
+  color: #000;
+}
+
+/* テーブル search のスタイル */
+table.search {
+  border-collapse: collapse;
+  width: 50%; 
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+table.search th {
+  font-size: 25px;
+  border: 3px solid #000;
+  background-color: #4d8dc1;
+  color: #fff;
+}
+table.search td {
+  height: 50px;
+  border: 3px solid #000;
+  color: #ffffff00;
+}
+
+/* セレクトボックスと入力フィールドのスタイル */
+select, input {
+  font-weight: bold;
+  font-size: 25px;
+  border-radius: 5px;
+  color: #000;
+  background-color: #FFF;
+  width: 200px;
+  text-align: center;
+}
+
+/* テーブル list のスタイル */
+table.list th, td {
+  white-space: nowrap;
+}
+table.list {
+  border-collapse: collapse;
+  margin: 0 auto 20px auto;
+  text-align: center;
+  width: 100%;
+}
+table.list th {
+  border: 3px solid #000;
+  background-color: #4d8dc1;
+  color: #fff;
+}
+table.list td {
+  font-weight: bold;
+  border: 3px solid #000;
+  color: #000;
+  background-color: #fff;
+}
+
+/* ボタンのスタイル */
+.btn1 {
+  background-color: #fff;
+  border: solid 2px #191970;
+  color: #191970;
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 10px 30px;
+  font-size: 30px;
+  box-shadow: 0 5px 0 #191970;
+  transition: .3s;
+  cursor: pointer;
+  display: inline-block;
+  width: 130px;
+  text-align: center;
+  margin: 0 0 20px 10%;
+}
+.btn1:hover {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #191970; 
+}
+
+/* ボタンエリアのスタイル */
+.btn_area {
+  display: flex;
+  justify-content: center; /* ボタンを中央寄せ */
+  margin: 5px 0; /* 上下のマージンを追加 */
+}
+
+/* 検索、クリア、印刷ボタンのスタイル */
+.btn_area button {
+  font-size: 30px;
+  width: 200px; /* ボタンの幅を200pxに設定 */
+  cursor: pointer;
+  background-color: #bfc14d;
+  margin: 5px; /* ボタン間のスペース */
+  border: none; /* デフォルトのボーダーを削除 */
+  border-radius: 5px; /* ボタンの角を丸くする */
+  color: #191970; /* テキストの色 */
+  padding: 10px; /* ボタン内のパディング */
+}
+
+/* フィルタ用ボタンのスタイル */
+.filter-buttons {
+  display: flex;
+  justify-content: center; /* ボタンを中央寄せ */
+  margin: 5px 0; /* 上下のマージンを追加 */
+}
+
+/* フィルタ用ボタンのスタイル */
+.filter-buttons button {
+  width: 200px; /* ボタンの幅を200pxに設定 */
+  margin: 5px; /* ボタン間のスペース */
+  font-size: 25px; /* フォントサイズ */
+  background-color: #bfc14d; /* 背景色 */
+  border: none; /* デフォルトのボーダーを削除 */
+  border-radius: 5px; /* ボタンの角を丸くする */
+  color: #191970; /* テキストの色 */
+  padding: 10px; /* ボタン内のパディング */
+}
+
+/* 小さなボタンのスタイル */
+.button {
+  font-size: 20px;
+  width: 50px;
+  cursor: pointer;
+  background-color: #bfc14d;
+  color: #191970;
+  text-align: center;
+  display: inline-block;
+  padding: 2px 0;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.button:hover {
+  background-color: #a1a33a;
+}
+/* 印刷時のスタイル */
+@media print {
+  body * {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+  }
+  .print-area, .print-area * {
+      visibility: visible;
+      position: static;
+      width: auto;
+      height: auto;
+  }
+  .print-area {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+  }
+  .print-area table.list {
+      width: 100%;
+      margin: 0 auto;
+      page-break-inside: avoid;
+  }
+}

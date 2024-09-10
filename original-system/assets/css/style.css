@@ -1,0 +1,92 @@
+body{
+	background-color: #808080;
+	font-family:sans-serif;
+}  
+header, main, footer, body {
+	width:1500px;
+	margin:0 auto;
+} 
+
+/* パンクズナビ */
+.breadcrumb {
+  margin: 0 0 30px 0;
+  /* padding: 0; */
+  list-style: none;
+  text-align: right;/*右寄せ  */
+}
+.breadcrumb li {
+  position: relative;
+  display: inline-block;/*横に並ぶように*/
+  list-style: none;
+  font-weight: bold;/*太字*/
+  margin-right: 0.8em;
+}
+.breadcrumb li:after {/*三角の部分*/
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  border-style: solid;
+  border-color: transparent;
+  border-left-color: #aedfc6;/*背景色*/
+  border-width: 14px 12px;
+  width: 0;
+  height: 0;
+}
+.breadcrumb li a {
+  display: inline-block;
+  padding: 0 3px 0 7px;
+  height: 28px;
+  line-height: 28px;
+  text-decoration: none;
+  color: #747772;
+  background: #aedfc6;/*背景色*/
+  font-size: 13px;
+}
+.breadcrumb li a:hover {
+  color: #FFF;
+}
+/* パンクズナビ終了 */
+
+main{
+	background-color: #FFF;
+	margin-bottom:30px;
+}
+
+main .pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+}
+main .pagination li {
+	margin: 0 10px;
+}
+main .pagination a {
+	text-decoration: none;
+	color: #007bff;
+	padding: 8px 16px;
+	border: 1px solid #0180d0;
+}
+
+main .pagination a:hover {
+	background-color: #ddd;
+}
+
+
+
+table{
+	border-collapse:collapse;
+}
+table, td, th {
+	border: 1px #000 solid;
+}
+th {
+	background-color: #0180d0;
+}
+
+
+footer{
+	text-align: center;
+	background-color: lightgreen;
+} 
