@@ -2,7 +2,7 @@
 session_start();
 $errors = [];
 $logged_in_workclass = $_SESSION['account']['workclass'] ?? null;
-require '../config/config.php';  // config.php で作成したPDOインスタンスを利用
+require '../common/config.php';  // config.php で作成したPDOインスタンスを利用
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {

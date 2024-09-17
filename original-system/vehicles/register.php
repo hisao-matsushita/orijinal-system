@@ -1,8 +1,8 @@
 <?php
 session_start();
 $errors = []; 
-require '../config/config.php';  // ここでPDOインスタンスが含まれるconfig.phpをインクルード
-require '../config/validation_vehicle.php';  
+require '../common/config.php';  // ここでPDOインスタンスが含まれるconfig.phpをインクルード
+require '../common/validation_vehicle.php';  
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
@@ -41,17 +41,6 @@ function generateJapaneseYearOptions($startYear, $endYear, $selectedYear) {
 $car_number01 = $_POST['car_number01'] ?? ''; 
 $car_number02 = $_POST['car_number02'] ?? ''; 
 
-// car_number01の表示処理
-// if (strlen($car_number01) === 1) {
-//     $car_number01 = '･' . $car_number01; // car_number01が1桁の場合に「･1」と表示
-// } elseif (empty($car_number01)) {
-//     $car_number01 = '･･'; // car_number01が空白の場合に「･･」と表示
-// }
-
-// // car_number02の表示処理
-// if (strlen($car_number02) === 1) {
-//     $car_number02 = '･' . $car_number02; // car_number02が1桁の場合に「･3」と表示
-// }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     // 新規登録処理
     validateAllVehicleData($pdoVehicles, false);  // config.phpで生成された $pdoVehicles を利用

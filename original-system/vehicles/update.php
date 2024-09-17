@@ -1,8 +1,8 @@
 <?php
 session_start();
-$errors = []; 
-require '../config/config.php';  // config.phpで既にPDOインスタンスが生成されている
-require '../config/validation_vehicle.php';  
+$errors = [];
+require '../common/config.php';  // config.phpで既にPDOインスタンスが生成されている
+require '../common/validation_vehicle.php';  // バリデーションファイルの読み込み
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['car_id'])) {
     }
 
     // 車両データを取得
-    $stmt = $pdoVehicles->prepare('SELECT * FROM vehicles WHERE car_id = :car_id');
+    $stmt = $pdoAccount->prepare('SELECT * FROM vehicles WHERE car_id = :car_id');  // `$pdoAccount` を使用
     $stmt->bindValue(':car_id', $car_id, PDO::PARAM_INT);
     $stmt->execute();
     $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -85,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['suspend'])) {
     $car_number_name = htmlspecialchars($_POST['car_number_name'], ENT_QUOTES, 'UTF-8');
     $sql = 'UPDATE vehicles SET is_suspended = 1 WHERE car_id = :car_id';
 
-    // ここを $pdoVehicles に置き換え
-    $stmt_update = $pdoVehicles->prepare($sql);
+    // `$pdoAccount` を使用してクエリを実行
+    $stmt_update = $pdoAccount->prepare($sql);
     $stmt_update->bindValue(':car_id', $car_id, PDO::PARAM_INT);
 
     try {
@@ -107,25 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     } else {
         exit('無効な車両IDです。');
     }
-// メーター検査有効期限をDATE型に変換
-$meter_inspection_year = $_POST['meter_inspection_year'] ?? null;
-$meter_inspection_month = $_POST['meter_inspection_month'] ?? null;
-if ($meter_inspection_year && $meter_inspection_month) {
-    $meter_inspection_date = $meter_inspection_year . '-' . str_pad($meter_inspection_month, 2, '0', STR_PAD_LEFT) . '-01';
-} else {
-    $meter_inspection_date = null;
-}
 
-// LPガス容器有効期限をDATE型に変換
-$lp_gas_year = $_POST['lp_gas_year'] ?? null;
-$lp_gas_month = $_POST['lp_gas_month'] ?? null;
-if ($lp_gas_year && $lp_gas_month) {
-    $lp_gas_date = $lp_gas_year . '-' . str_pad($lp_gas_month, 2, '0', STR_PAD_LEFT) . '-01';
-} else {
-    $lp_gas_date = null;
-}
     // フォームからのデータを取得
-    $car_number_name = $_POST['car_number_name'] ?? ''; // 車番を取得
+    $car_number_name = $_POST['car_number_name'] ?? '';  // 車番を取得
     $car_number01 = $_POST['car_number01'] ?? '';
     $car_number02 = $_POST['car_number02'] ?? '';
     $car_number = $car_number01 . '-' . $car_number02;
@@ -157,12 +141,12 @@ if ($lp_gas_year && $lp_gas_month) {
     $user_name = $_POST['user_name'] ?? null;
     $user_address = $_POST['user_address'] ?? null;
     $headquarters_address = $_POST['headquarters_address'] ?? null;
-    
+
     // バリデーションを実行
-    validateAllVehicleData($pdoVehicles, true);
+    validateAllVehicleData($pdoAccount, true);  // `$pdoAccount` を使用
 
     if (!empty($errors)) {
-        // フォームの該当する箇所にエラーメッセージを表示
+        // エラーメッセージがある場合はフォームに表示
     } else {
         $sql = '
         UPDATE vehicles
@@ -186,12 +170,13 @@ if ($lp_gas_year && $lp_gas_month) {
             is_suspended = 0,
             vehicle_updateday = NOW()
         WHERE car_id = :car_id
-    ';
+        ';
 
-        // ここを $pdoVehicles に置き換え
-        $stmt_update = $pdoVehicles->prepare($sql);
+        // `$pdoAccount` を使用してクエリを実行
+        $stmt_update = $pdoAccount->prepare($sql);
 
-        $stmt_update->bindValue(':car_number', $car_number, PDO::PARAM_STR);  
+        // バインド変数の設定
+        $stmt_update->bindValue(':car_number', $car_number, PDO::PARAM_STR);
         $stmt_update->bindValue(':car_model', $car_model, PDO::PARAM_STR);
         $stmt_update->bindValue(':car_name', $car_name, PDO::PARAM_STR);
         $stmt_update->bindValue(':car_transpottaition', $car_transpottaition, PDO::PARAM_STR);
@@ -200,8 +185,8 @@ if ($lp_gas_year && $lp_gas_month) {
         $stmt_update->bindValue(':car_chassis_number', $car_chassis_number, PDO::PARAM_STR);
         $stmt_update->bindValue(':first_registration_day', $first_registration_date, PDO::PARAM_STR);
         $stmt_update->bindValue(':vehicle_inspection_day', $vehicle_inspection_date, PDO::PARAM_STR);
-        $stmt_update->bindValue(':meter_inspection_day', $meter_inspection_date !== null ? $meter_inspection_date : null, PDO::PARAM_STR);
-        $stmt_update->bindValue(':lp_gas_day', $lp_gas_date !== null ? $lp_gas_date : null, PDO::PARAM_STR);                  
+        $stmt_update->bindValue(':meter_inspection_day', $meter_inspection_date, PDO::PARAM_STR);
+        $stmt_update->bindValue(':lp_gas_day', $lp_gas_date, PDO::PARAM_STR);
         $stmt_update->bindValue(':owner_name', $owner_name, PDO::PARAM_STR);
         $stmt_update->bindValue(':owner_address', $owner_address, PDO::PARAM_STR);
         $stmt_update->bindValue(':user_name', $user_name, PDO::PARAM_STR);
@@ -211,7 +196,6 @@ if ($lp_gas_year && $lp_gas_month) {
 
         try {
             $stmt_update->execute();
-            // 車番（car_number_name）を使用してリダイレクト時にメッセージを表示
             $car_number_name_sanitized = htmlspecialchars($car_number_name, ENT_QUOTES, 'UTF-8');
             header("Location: list.php?message={$car_number_name_sanitized}号車を更新しました。");
             exit();

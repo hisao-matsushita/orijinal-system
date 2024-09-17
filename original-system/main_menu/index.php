@@ -2,8 +2,9 @@
 // セッションを開始
 session_start();
 
+
 // config.php をインクルードして、PDOインスタンスや定数を利用
-require '../config/config.php';
+require '../common/config.php';
 
 // ログアウト処理
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
@@ -47,7 +48,7 @@ try {
     FROM vehicles
     WHERE DATE(vehicle_inspection_day) BETWEEN :current_date AND DATE_ADD(:current_date, INTERVAL 14 DAY)
     ';
-    $stmt_vehicle = $pdoVehicles->prepare($sql_vehicle);
+    $stmt_vehicle = $pdoAccount->prepare($sql_vehicle); // $pdoVehiclesではなく、$pdoAccountを使用
     $stmt_vehicle->bindValue(':current_date', $currentDate->format('Y-m-d'), PDO::PARAM_STR);
     $stmt_vehicle->execute();
     $expiringVehicles = $stmt_vehicle->fetchAll(PDO::FETCH_ASSOC);
@@ -123,7 +124,7 @@ try {
                 <a href="../accounts/list.php">
                     <button>人事管理</button>
                 </a>
-                <a href="#">
+                <a href="../attendance/menu.php">
                     <button>勤怠管理</button>
                 </a>
                 <a href="../vehicles/list.php">

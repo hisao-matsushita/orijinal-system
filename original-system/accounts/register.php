@@ -1,8 +1,8 @@
 <?php
 session_start();
 $errors = [];
-require '../config/config.php';  // config.phpで作成したPDOインスタンスを使用
-require '../config/validation_account.php';  // バリデーション用のファイルを読み込み
+require '../common/config.php';  // config.phpで作成したPDOインスタンスを使用
+require '../common/validation_account.php';  // バリデーション用のファイルを読み込み
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {

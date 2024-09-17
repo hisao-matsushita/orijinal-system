@@ -3,7 +3,7 @@
 session_start();
 
 // config.php をインクルードして、PDOインスタンスや定数を利用
-require '../config/config.php';
+require '../common/config.php';
 
 // エラーメッセージの初期化
 $error_message = '';

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config/config.php';  // config.php で既に PDO インスタンスが生成されている
+require '../common/config.php';  // config.php で PDO インスタンスが生成されている
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
@@ -58,7 +58,7 @@ try {
     $sql .= " ORDER BY $sort $order";
 
     // SQLクエリの実行準備
-    $stmt = $pdoVehicles->prepare($sql);
+    $stmt = $pdoAccount->prepare($sql);  // $pdoAccount を使用
 
     // パラメータをバインド
     foreach ($params as $key => $value) {
@@ -80,7 +80,6 @@ try {
     echo 'データベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit();
 }
-
 // 日本の元号変換関数
 function convertToJapaneseEra($year) {
     $eras = [

@@ -1,13 +1,19 @@
 <?php
 session_start();
-require '../config/config.php'; // config.phpで作成したPDOインスタンスを利用
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require '../common/config.php'; // config.phpで作成したPDOインスタンスを利用
 
 // ログインチェック
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
-    // ログイン状態でない場合、ログインページにリダイレクト
     header('Location: ../login/index.php');
     exit();
 }
+
+// var_dump の出力を赤色で表示
+echo '<pre style="color:red;">';
+var_dump($_SESSION['account']['workclass']);
+echo '</pre>';
 
 $processedAccounts = [];
 $logged_in_workclass = $_SESSION['account']['workclass'] ?? null; // ログインユーザーの勤務区分
@@ -33,7 +39,7 @@ if (isset($_POST['submit'])) {
             WHERE account_id = :account_id
         ';
 
-        $stmt_update = $pdoAccount->prepare($sql_update); // config.phpの$pdoAccountを利用
+        $stmt_update = $pdoAccount->prepare($sql_update);
 
         // フォームから送信されたデータをバインド
         $stmt_update->bindValue(':account_id', $_POST['account_id'], PDO::PARAM_INT);
@@ -64,9 +70,6 @@ if (isset($_POST['submit'])) {
 }
 
 try {
-    // config.phpで生成された$pdoAccountをそのまま利用
-    $pdo = $pdoAccount;
-
     // 検索条件の初期化
     $account_department = isset($_GET['account_department']) ? $_GET['account_department'] : '0';
     $account_classification = isset($_GET['account_classification']) ? $_GET['account_classification'] : '0';
@@ -74,15 +77,16 @@ try {
     $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 
     // 全従業員の集計
-    $stmt = $pdo->query('SELECT COUNT(*) AS total_accounts FROM accounts');
+    // ここを$pdoAccountに変更
+    $stmt = $pdoAccount->query('SELECT COUNT(*) AS total_accounts FROM accounts');
     $total_people = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // 乗務員の人数の集計
-    $stmt = $pdo->query("SELECT COUNT(*) AS total_drivers FROM accounts WHERE account_department = '2'");
+    $stmt = $pdoAccount->query("SELECT COUNT(*) AS total_drivers FROM accounts WHERE account_department = '2'");
     $total_drivers = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // 乗務員の平均年齢の集計
-    $stmt = $pdo->query('SELECT account_birthday FROM accounts WHERE account_department = 2');
+    $stmt = $pdoAccount->query('SELECT account_birthday FROM accounts WHERE account_department = 2');
     $birthdates = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $totalAge = 0;
     $numOfEmployees = count($birthdates);
@@ -131,7 +135,7 @@ try {
     }
 
     // 検索処理の実行
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdoAccount->prepare($sql); 
     $partial_match = "%{$keyword}%";
     $stmt->bindValue(':keyword', $partial_match, PDO::PARAM_STR);
     if ($account_department != '0') {
@@ -238,7 +242,7 @@ try {
                     <a href="register.php" class="btn1">新規登録</a>
                 </div>
             <?php endif; ?>
-          
+
            
                 <!-- // （従業員の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する -->
           
@@ -263,18 +267,18 @@ try {
                             <td><form action="" method="get" class="search-form">
                                 <input type="text" placeholder="ふりがなで検索" name="keyword">
                             </td>
-                            <td>
+                            <!-- <td>
                                 <select name="account_department">
                                     <option value="0">選択</option>
                                     <option value="1">内勤</option>
                                     <option value="2">外勤</option>
                                 </select>
-                            </td>
-                            <!-- <td>
+                            </td> -->
+                            <td>
                                 <select name="account_department">
                                     <?= generateSelectOptions(ACCOUNT_DEPARTMENT, $_GET['account_department'] ?? '0'); ?>
                                 </select>
-                            </td> -->
+                            </td>
                             <td><select name="account_classification">
                                     <option value="0">選択</option>
                                     <option value="1">正社員</option>
