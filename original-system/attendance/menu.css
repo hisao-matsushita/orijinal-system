@@ -1,0 +1,113 @@
+/* body全体のスタイル */
+body {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  background: #000;
+}
+
+/* タイトル（h1）のスタイル */
+h1 {
+  font-size: 50px;
+  padding: 5px 8px;
+  color: #fff;
+  background: #094;
+  box-shadow: 5px 5px 0 #007032;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  height: 60px;
+}
+
+/* パンクズナビのスタイル */
+.breadcrumb {
+  margin: 0 0 20px 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+
+/* パンクズナビ内のリンク */
+.breadcrumb li {
+  position: relative;
+  display: inline-block;
+  list-style: none;
+  font-weight: bold;
+  margin-right: 0.8em;
+}
+
+.breadcrumb li:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  border-style: solid;
+  border-color: transparent;
+  border-left-color: #aedfc6;
+  border-width: 14px 12px;
+  width: 0;
+  height: 0;
+}
+
+.breadcrumb li a {
+  display: inline-block;
+  padding: 0 3px 0 7px;
+  height: 28px;
+  line-height: 28px;
+  text-decoration: none;
+  color: #747772;
+  background: #aedfc6;
+  font-size: 13px;
+}
+
+.breadcrumb li a:hover {
+  color: #FFF;
+}
+
+/* ボタンを2列に配置するグリッドレイアウト */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 各行に2つのボタン */
+  grid-gap: 20px 50px; /* 行間を20px、列間を50pxに設定 */
+  justify-content: center; /* 横方向の中央揃え */
+  align-items: center; /* 縦方向の中央揃え */
+  max-width: 710px; /* コンテナの最大幅を指定してボタンが詰まらないようにする */
+  margin-top: 50px; /* コンテナの上に余白を設ける */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* ボタンのスタイル */
+button {
+  --button-color: #0cf;
+  --alpha-color: #0cf4;
+  --spread: 1.5rem;
+
+  color: var(--button-color);
+  font: 700 2rem/1 futura pt;
+  border: 5px solid var(--button-color);
+  padding: 1rem 2rem;
+  background-color: transparent;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow:
+    0 2px 1rem var(--button-color),
+    0 2px 1rem var(--button-color),
+    0 2px 3rem var(--spread) var(--alpha-color),
+    0 2px 1rem var(--button-color) inset,
+    0 2px 1rem var(--button-color) inset,
+    0 2px 3rem var(--spread) var(--alpha-color) inset;
+
+  transition-property: color, background-color, box-shadow;
+  transition-duration: .4s;
+  width: 100%; /* ボタンの幅はグリッドに合わせる */
+}
+
+button:hover {
+  color: #053c4a;
+  background-color: var(--button-color);
+  --spread: 3rem;
+}

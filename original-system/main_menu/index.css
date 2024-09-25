@@ -1,0 +1,120 @@
+body {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  background: #000;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 上部に配置 */
+  align-items: center;
+  height: auto; /* 自動で高さを決める */
+  min-height: 80vh; /* 必要に応じて最低高さを設定 */
+  padding-top: 5px; /* 上に余白を追加 */
+}
+
+h1 {
+  font-size: 50px;
+  padding: 5px 8px;
+  color: #fff;
+  background: #094;
+  box-shadow: 5px 5px 0 #007032;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  height: 60px;
+}
+
+/* h2を表示させ、左寄せに */
+.left-align-section {
+  width: 100%; /* 全体幅に広げる */
+  text-align: left; /* テキストを左寄せ */
+  padding-left: 20px; /* 左に余白を追加（オプション） */
+}
+
+h2 {
+  font-size: 25px;
+  padding: 5px 8px;
+  color: red;
+  margin: 5px 0 5px 5px;
+}
+
+h3 {
+  font-size: 25px;
+  padding: 5px 8px;
+  color: red;
+  text-align: center;
+  margin: 5px 0;
+}
+
+p.first-style {
+  font-size: 20px;
+  padding: 5px 8px;
+  color: #0cf;
+  margin: 0 0 5px 8px;
+  width: 100%; /* 必要なら */
+  text-align: left;
+}
+
+p.second-style {
+  font-size: 20px;
+  padding: 5px 8px;
+  color: #0cf;
+  margin: 0 auto 5px auto;
+  width: 500px;
+  text-align: center;
+}
+
+/* 免許証や車検の部分は縦並びにする */
+.vertical-container {
+  width: 100%;  /* 全体幅に広げる */
+  text-align: center;  /* テキストを中央寄せ */
+  display: flex;
+  flex-direction: column;  /* 縦並びにする */
+  align-items: center;  /* 中央に揃える */
+  padding: 10px 0; /* 上下に余白 */
+}
+
+/* 横並びにするメニュー */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; /* 横並びに */
+  gap: 10px; /* ボタン同士の間隔 */
+  text-align: center;
+  margin-top: 5px;
+}
+
+button {
+  --button-color: #0cf;
+  --alpha-color: #0cf4;
+  --spread: 1.5rem;
+  
+  color: var(--button-color);
+  font: 700 2rem/1 futura pt;
+  border: 5px solid var(--button-color);
+  padding: 1rem 2rem;
+  background-color: transparent;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow:
+    0 2px 1rem var(--button-color),
+    0 2px 1rem var(--button-color),
+    0 2px 3rem var(--spread) var(--alpha-color),
+    0 2px 1rem var(--button-color) inset,
+    0 2px 1rem var(--button-color) inset,
+    0 2px 3rem var(--spread) var(--alpha-color) inset;
+  
+  transition-property: color, background-color, box-shadow;
+  transition-duration: .4s;
+}
+
+button:hover {
+  color: #053c4a;
+  background-color: var(--button-color);
+  --spread: 3rem;
+}
